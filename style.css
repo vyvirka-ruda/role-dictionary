@@ -70,3 +70,9 @@ a { color: inherit; }
   background: #fafafa;
   font-size: 14px;
 }
+.node.active > .row {
+  background: #f5f7fa;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
