@@ -1,0 +1,53 @@
+{
+  "roles": [
+    {
+      "id": "manufacturing-engineer-npi",
+      "canonical_name": "Manufacturing Engineer (Industrialization / NPI)",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "Engineer responsible for transitioning products from prototype to scalable production.",
+      "market_titles": [
+        "Industrialization Engineer",
+        "NPI Engineer",
+        "Manufacturing Engineer",
+        "Production Ramp-Up Engineer"
+      ],
+      "primary_path": [
+        "Manufacturing / Production Engineering",
+        "Manufacturing Engineer",
+        "Industrialization / NPI"
+      ],
+      "related_domains": [
+        "Hardware & Electronics",
+        "Mechanical / Physical Design",
+        "Embedded Engineering",
+        "Systems & Integration",
+        "Engineering QA"
+      ],
+      "tags": ["manufacturing", "npi", "industrialization"]
+    },
+    {
+      "id": "autopilot-engineer",
+      "canonical_name": "Autopilot Engineer",
+      "domain": "Embedded Engineering",
+      "description": "Engineer responsible for development and tuning of UAV autopilot software.",
+      "market_titles": [
+        "ArduPilot Engineer",
+        "PX4 Engineer",
+        "UAV Autopilot Software Engineer",
+        "ArduPilot / iNAV Engineer"
+      ],
+      "primary_path": [
+        "Embedded Engineering",
+        "Autopilot & Flight Stack",
+        "Autopilot Engineer"
+      ],
+      "related_domains": [
+        "Autonomy / Robotics / AI",
+        "Systems & Integration",
+        "Embedded Linux",
+        "Hardware & Electronics"
+      ],
+      "tags": ["uav", "autopilot", "embedded", "control"]
+    }
+  ]
+}
