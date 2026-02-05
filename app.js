@@ -51,7 +51,12 @@ function renderResults(list) {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
-      <div><strong>${r.canonical_name}</strong></div>
+     <div>
+  <strong>${r.canonical_name}</strong>
+  <span class="badge domain-${(r.domain || "").toLowerCase().split(" ")[0]}">
+    ${r.domain}
+  </span>
+</div>
       <div class="small">${(r.primary_path || []).join(" → ")}</div>
       <div class="small">${(r.market_titles || []).slice(0, 4).join(" • ")}</div>
     `;
