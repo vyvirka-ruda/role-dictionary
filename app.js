@@ -1,5 +1,11 @@
 let ROLES = [];
 let TREE = {};
+const DOMAIN_CLASS = {
+  "Manufacturing / Production Engineering": "manufacturing",
+  "Embedded Engineering": "embedded",
+  "Systems & Integration": "systems",
+  "People & Talent": "people"
+};
 
 function renderTree(container, treeObj, prefix = []) {
   container.innerHTML = "";
