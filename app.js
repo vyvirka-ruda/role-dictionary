@@ -190,7 +190,26 @@ function highlightTreePath(path) {
 }
 
 function showResultsForRoleContext(role) {
-  // Useful list when opening via #role=: show all roles in same domain
+  const p = role.primary_path || [];
+
+  // Prefer a "section context": first 2 levels of the tree
+  // Example: ["Engineering / R&D", "Software Engineering", ...]
+  if (p.length >= 2) {
+    const prefix = [p[0], p[1]];
+    const list = ROLES.filter(r => {
+      const rp = r.primary_path || [];
+      if (rp.length < 2) return false;
+      return rp[0] === prefix[0] && rp[1] === prefix[1];
+    });
+
+    // Fallback if something went odd
+    if (list.length) {
+      renderResults(list);
+      return;
+    }
+  }
+
+  // Fallback: same domain
   const domainList = ROLES.filter(r => r.domain === role.domain);
   renderResults(domainList);
 }
