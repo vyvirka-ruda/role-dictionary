@@ -75,4 +75,11 @@ a { color: inherit; }
   border-radius: 8px;
   font-weight: 600;
 }
-
+header button#reset {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+header button#reset:hover { border-color: #bbb; }
