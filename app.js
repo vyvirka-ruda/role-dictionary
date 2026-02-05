@@ -20,6 +20,29 @@ function renderTree(container, treeObj, prefix = []) {
     const node = document.createElement("div");
     node.className = "node";
 
+function highlightTreePath(path) {
+  document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
+
+  let container = document.getElementById("tree");
+  let prefix = [];
+
+  path.forEach(part => {
+    prefix.push(part);
+    const nodes = Array.from(container.children);
+    const node = nodes.find(n => n.querySelector(".row span:last-child")?.textContent === part);
+    if (!node) return;
+
+    node.classList.add("active");
+    const children = node.querySelector(":scope > div:nth-child(2)");
+    if (children) {
+      children.style.display = "block";
+      const badge = node.querySelector(".badge");
+      if (badge) badge.textContent = "–";
+      container = children;
+    }
+  });
+}
+    
 function setAllTreeNodes(open) {
   document.querySelectorAll("#tree .node").forEach(node => {
     const row = node.querySelector(":scope > .row");
