@@ -200,6 +200,20 @@ async function init() {
 
   const indexed = indexRoles(ROLES);
   const search = document.getElementById("search");
+  document.getElementById("reset")?.addEventListener("click", () => {
+  // очистити пошук
+  search.value = "";
+
+  // повернути порожні стани
+  renderResultsEmpty();
+  renderRoleEmpty();
+
+  // опційно: сховати всі гілки дерева
+  setAllTreeNodes(false);
+
+  // очистити hash
+  history.replaceState({}, "", "#");
+});
 
   // стартові порожні стани
   renderResultsEmpty();
