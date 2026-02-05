@@ -46,15 +46,31 @@ function renderTree(container, treeObj, prefix = []) {
     node.appendChild(childrenWrap);
 
     row.addEventListener("click", () => {
-      const open = childrenWrap.style.display !== "none";
-      childrenWrap.style.display = open ? "none" : "block";
-      row.querySelector(".badge").textContent = open ? "+" : "–";
+  const isOpen = childrenWrap.style.display !== "none";
 
-      const pathPrefix = [...prefix, key];
-      showResultsByPathPrefix(pathPrefix);
-      history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
-      setResetVisible(true); // user interacted -> allow reset
-    });
+  // toggle UI
+  childrenWrap.style.display = isOpen ? "none" : "block";
+  row.querySelector(".badge").textContent = isOpen ? "+" : "–";
+
+  const pathPrefix = [...prefix, key];
+
+  if (!isOpen) {
+    // ВІДКРИЛИ гілку -> показати результати по цій гілці
+    showResultsByPathPrefix(pathPrefix);
+    history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
+    setResetVisible(true);
+  } else {
+    // ЗАКРИЛИ гілку -> сховати результати і картку
+    renderResultsEmpty();
+    renderRoleEmpty();
+    history.replaceState({}, "", "#");
+
+    // Якщо немає пошуку — ховаємо reset
+    const search = document.getElementById("search");
+    const hasSearch = !!(search && search.value.trim());
+    setResetVisible(hasSearch);
+  }
+});
 
     renderTree(childrenWrap, treeObj[key].__children || {}, [...prefix, key]);
     container.appendChild(node);
