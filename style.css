@@ -102,3 +102,22 @@ header button#reset.show { display: inline-block; }
 .badge.domain.gtm     { background: #fff6e8; border-color: #ffd1a8; }
 .badge.domain.peopleops { background: #f7fff0; border-color: #d6ffb9; }
 
+/* Domain badge */
+.badge.domain {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  margin-left: 8px;
+  display: inline-block;
+  background: #f6f6f6;
+}
+
+/* New top-level domains (auto-slugged from role.domain) */
+.badge.domain.domain-engineering-r-d { background: #eef3ff; border-color: #b7c9ff; }
+.badge.domain.domain-it-security { background: #fff0f0; border-color: #ffb9b9; }
+.badge.domain.domain-product-delivery { background: #f3edff; border-color: #c9b7ff; }
+.badge.domain.domain-production-operations { background: #f0fffb; border-color: #b9ffe9; }
+.badge.domain.domain-go-to-market-corporate { background: #fff6e8; border-color: #ffd1a8; }
+.badge.domain.domain-people-operations { background: #f7fff0; border-color: #d6ffb9; }
+
