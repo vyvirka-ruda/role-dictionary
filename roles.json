@@ -6,16 +6,7 @@
       "domain": "Software Engineering",
       "description": "Server-side development and APIs.",
       "market_titles": [
-        "Senior Backend Engineer (Node.js)",
-        "Senior Backend Engineer (Java)",
-        "Back-end Engineer",
-        "Backend Developer",
-        "Backend Developer (PHP/Laravel)",
-        "Senior Python Developer",
-        "C# Engineer (Middle+/Senior)",
-        "Software Architect C#",
-        "PHP (Symfony) developer",
-        "Full-Stack Developer (Internal Software)"
+        "Backend Engineer (PHP/Python/Node.js/Java/C#/.NET)"
       ],
       "primary_path": ["Software Engineering", "Backend", "Backend Engineer"],
       "tags": ["backend", "api", "software"]
@@ -26,10 +17,7 @@
       "domain": "Software Engineering",
       "description": "UI development for web apps.",
       "market_titles": [
-        "Frontend Developer",
-        "Senior Frontend Engineer",
-        "Front-End Developer",
-        "Frontend/React Developer"
+        "Frontend Engineer (React)"
       ],
       "primary_path": ["Software Engineering", "Frontend", "Frontend Engineer"],
       "tags": ["frontend", "ui", "web"]
@@ -48,7 +36,7 @@
       "canonical_name": "Data Analyst",
       "domain": "Software Engineering",
       "description": "Analytics and reporting.",
-      "market_titles": ["Data Analyst", "BI Analyst", "BI/Data Analyst", "Power BI Analyst"],
+      "market_titles": ["Data Analyst", "BI Analyst", "Power BI Analyst"],
       "primary_path": ["Software Engineering", "Data", "Data Analyst"],
       "tags": ["analytics", "bi", "powerbi"]
     },
@@ -59,27 +47,30 @@
       "description": "Business systems, ERP/CRM implementation and support.",
       "market_titles": [
         "ERP Engineer",
-        "System Analyst ERP",
         "Business Systems / ERP Analyst",
         "CRM/ERP Administrator",
         "Administrator CRM-систем",
+        "Адміністратор CRM-систем",
+        "Фахівець з впровадження ERP",
         "Backend Developer (Python/Odoo)"
       ],
       "primary_path": ["Software Engineering", "ERP / CRM", "ERP / CRM Engineer"],
       "tags": ["erp", "crm", "business-systems"]
     },
-
     {
       "id": "embedded-engineer-mcu",
       "canonical_name": "Embedded Engineer (MCU)",
       "domain": "Embedded Engineering",
       "description": "MCU firmware and bare-metal/RTOS development.",
       "market_titles": [
+        "Embedded Engineer",
         "Embedded C Engineer",
         "Embedded Developer",
-        "Embedded Developer (C/C++, STM32)",
-        "Microcontroller Software Engineer (STM)",
-        "Програміст мікроконтролерів"
+        "Microcontroller Software Engineer",
+        "Firmware Engineer",
+        "Програміст мікроконтролерів",
+        "Інженер з вбудованого програмного забезпечення",
+        "Embedded Engineer (UAV)"
       ],
       "primary_path": ["Embedded Engineering", "MCU / Bare Metal", "Embedded Engineer (MCU)"],
       "tags": ["embedded", "mcu", "firmware", "rtos"]
@@ -90,9 +81,10 @@
       "domain": "Embedded Engineering",
       "description": "Embedded Linux userspace, BSP, drivers, build systems.",
       "market_titles": [
-        "Embedded Engineer",
-        "Senior Embedded Linux Software Engineer",
-        "Senior Embedded Software Engineer (C/C++)"
+        "Embedded Linux Engineer",
+        "Embedded Linux Software Engineer",
+        "Embedded Engineer (Linux)",
+        "Інженер Embedded Linux"
       ],
       "primary_path": ["Embedded Engineering", "Embedded Linux", "Embedded Linux Engineer"],
       "tags": ["embedded", "linux", "bsp", "drivers"]
@@ -103,12 +95,12 @@
       "domain": "Embedded Engineering",
       "description": "UAV autopilot / flight stack development and tuning.",
       "market_titles": [
-        "ArduPilot Engineer",
-        "Senior Ardupilot Engineer",
-        "ArduPlane Engineer",
+        "Autopilot Engineer",
         "UAV Autopilot Software Engineer",
+        "ArduPilot Engineer",
+        "PX4 Engineer",
         "ArduPilot / iNAV Engineer",
-        "PX4 Engineer"
+        "Інженер автопілоту БпЛА"
       ],
       "primary_path": ["Embedded Engineering", "Autopilot / Flight Stack", "Autopilot Engineer"],
       "tags": ["uav", "autopilot", "px4", "ardupilot", "control"]
@@ -118,57 +110,31 @@
       "canonical_name": "Motor Control Engineer",
       "domain": "Embedded Engineering",
       "description": "Motor control algorithms and ESC/FOC control.",
-      "market_titles": ["Embedded / Motor Control Engineer (FOC)", "ESC Engineer"],
+      "market_titles": [
+        "Motor Control Engineer",
+        "ESC Engineer",
+        "FOC Engineer",
+        "Інженер керування електродвигунами"
+      ],
       "primary_path": ["Embedded Engineering", "Motor Control", "Motor Control Engineer"],
       "tags": ["motor", "foc", "esc", "control"]
     },
-    {
-      "id": "embedded-video-engineer",
-      "canonical_name": "Embedded Video Engineer",
-      "domain": "Embedded Engineering",
-      "description": "Embedded video pipelines and low-latency streaming.",
-      "market_titles": ["Embedded Video Engineer", "C++ Developer (Embedded Video)"],
-      "primary_path": ["Embedded Engineering", "Embedded Video", "Embedded Video Engineer"],
-      "tags": ["video", "embedded", "c++"]
-    },
-    {
-      "id": "embedded-ai-engineer",
-      "canonical_name": "Embedded AI Engineer",
-      "domain": "Embedded Engineering",
-      "description": "Edge ML deployment and inference on embedded devices.",
-      "market_titles": ["Edge ML Deployment Engineer", "Embedded ML Engineer", "ML/CV Engineer (Edge)"],
-      "primary_path": ["Embedded Engineering", "Embedded AI", "Embedded AI Engineer"],
-      "tags": ["edge", "ml", "cv", "embedded-ai"]
-    },
-
     {
       "id": "gnc-engineer",
       "canonical_name": "GNC Engineer",
       "domain": "Autonomy / Robotics / AI",
       "description": "Guidance, navigation and control algorithms.",
       "market_titles": [
+        "GNC Engineer",
         "GNC Algorithm Engineer",
-        "Flight Control Systems Engineer",
         "Guidance & Control Engineer",
-        "Control Systems Engineer"
+        "Control Systems Engineer",
+        "Flight Control Systems Engineer",
+        "Інженер систем керування",
+        "Інженер навігації та керування"
       ],
       "primary_path": ["Autonomy / Robotics / AI", "Control & GNC", "GNC Engineer"],
       "tags": ["gnc", "control", "navigation"]
-    },
-    {
-      "id": "robotics-engineer",
-      "canonical_name": "Robotics Engineer",
-      "domain": "Autonomy / Robotics / AI",
-      "description": "Robotics systems and autonomy software.",
-      "market_titles": [
-        "Robotics Engineer (Autonomous UAV)",
-        "Robotics Engineer (Control Systems)",
-        "Robotics Software Engineer",
-        "UGV Engineer",
-        "UGV Lead"
-      ],
-      "primary_path": ["Autonomy / Robotics / AI", "Robotics", "Robotics Engineer"],
-      "tags": ["robotics", "uav", "ugv", "autonomy"]
     },
     {
       "id": "computer-vision-engineer",
@@ -177,44 +143,15 @@
       "description": "Computer vision for navigation/targeting/perception.",
       "market_titles": [
         "Computer Vision Engineer",
-        "Computer Vision Engineer (Navigation/UAV)",
         "CV Engineer",
         "CV/ML Engineer",
-        "Senior CV/ML Research Engineer"
+        "Image Processing Engineer",
+        "Інженер комп’ютерного зору",
+        "Інженер обробки зображень"
       ],
       "primary_path": ["Autonomy / Robotics / AI", "Perception", "Computer Vision Engineer"],
       "tags": ["cv", "perception", "ml"]
     },
-    {
-      "id": "machine-learning-engineer",
-      "canonical_name": "Machine Learning Engineer",
-      "domain": "Autonomy / Robotics / AI",
-      "description": "ML model development and deployment workflows.",
-      "market_titles": [
-        "Machine Learning Engineer",
-        "ML Engineer",
-        "ML Research Engineer",
-        "Senior Machine Learning Engineer",
-        "Dataset Engineer"
-      ],
-      "primary_path": ["Autonomy / Robotics / AI", "ML", "Machine Learning Engineer"],
-      "tags": ["ml", "research", "datasets"]
-    },
-    {
-      "id": "simulation-engineer",
-      "canonical_name": "Simulation Engineer",
-      "domain": "Autonomy / Robotics / AI",
-      "description": "Simulation environments and SITL/HIL tooling.",
-      "market_titles": [
-        "Simulation Engineer (Unreal Engine)",
-        "Lead Simulation Engineer",
-        "C++ Simulation Engineer (SITL)",
-        "UAV Simulator Engineer (Gazebo)"
-      ],
-      "primary_path": ["Autonomy / Robotics / AI", "Simulation", "Simulation Engineer"],
-      "tags": ["simulation", "unreal", "gazebo", "sitl"]
-    },
-
     {
       "id": "hardware-engineer",
       "canonical_name": "Hardware Engineer",
@@ -224,26 +161,12 @@
         "Hardware Engineer",
         "Electronics Engineer",
         "Electronics Design Engineer",
-        "Prototype Electronics Engineer"
+        "Hardware Design Engineer",
+        "Інженер-електронік",
+        "Інженер з розробки електроніки"
       ],
       "primary_path": ["Hardware & Electronics", "Electronics Design", "Hardware Engineer"],
       "tags": ["hardware", "electronics", "design"]
-    },
-    {
-      "id": "pcb-engineer",
-      "canonical_name": "PCB Engineer",
-      "domain": "Hardware & Electronics",
-      "description": "PCB schematic, layout and ECAD libraries.",
-      "market_titles": [
-        "PCB Design Engineer",
-        "PCB Layout Engineer",
-        "PCB Schematic Engineer",
-        "Schematic Engineer",
-        "ECAD Engineer",
-        "ECAD Library Engineer"
-      ],
-      "primary_path": ["Hardware & Electronics", "PCB", "PCB Engineer"],
-      "tags": ["pcb", "ecad", "schematic", "layout"]
     },
     {
       "id": "rf-engineer",
@@ -254,129 +177,12 @@
         "RF Engineer",
         "Radio Frequency Engineer",
         "Antenna Engineer",
-        "RF/EM Simulation Engineer",
-        "Microwave Engineer"
+        "Microwave Engineer",
+        "Радіоінженер",
+        "Інженер радіочастотних систем"
       ],
       "primary_path": ["Hardware & Electronics", "RF", "RF Engineer"],
-      "tags": ["rf", "antenna", "em", "microwave"]
-    },
-    {
-      "id": "fpga-dsp-engineer",
-      "canonical_name": "FPGA / DSP Engineer",
-      "domain": "Hardware & Electronics",
-      "description": "FPGA design, DSP pipelines, SDR systems.",
-      "market_titles": [
-        "FPGA Engineer",
-        "FPGA/DSP Engineer",
-        "FPGA & Embedded Engineer",
-        "SDR Systems Engineer"
-      ],
-      "primary_path": ["Hardware & Electronics", "FPGA / DSP", "FPGA / DSP Engineer"],
-      "tags": ["fpga", "dsp", "sdr"]
-    },
-    {
-      "id": "hardware-test-engineer",
-      "canonical_name": "Hardware Test Engineer",
-      "domain": "Hardware & Electronics",
-      "description": "Hardware validation and electronics testing.",
-      "market_titles": ["Hardware QA Engineer", "Electronics Test Engineer", "Hardware Validation Engineer"],
-      "primary_path": ["Hardware & Electronics", "Test & Validation", "Hardware Test Engineer"],
-      "tags": ["hardware-test", "validation", "qa"]
-    },
-
-    {
-      "id": "mechanical-design-engineer",
-      "canonical_name": "Mechanical Design Engineer",
-      "domain": "Mechanical / Physical Design",
-      "description": "Mechanical design and CAD for hardware products.",
-      "market_titles": [
-        "Mechanical Engineer",
-        "Mechanical Design Engineer",
-        "Senior Mechanical Design Engineer",
-        "Design Engineer",
-        "CAD Engineer"
-      ],
-      "primary_path": ["Mechanical / Physical Design", "Mechanical Design", "Mechanical Design Engineer"],
-      "tags": ["mechanical", "cad", "design"]
-    },
-    {
-      "id": "composites-engineer",
-      "canonical_name": "Composites Engineer",
-      "domain": "Mechanical / Physical Design",
-      "description": "Composite materials and composite part design.",
-      "market_titles": ["Composite Materials Engineer", "Composites Engineer"],
-      "primary_path": ["Mechanical / Physical Design", "Materials", "Composites Engineer"],
-      "tags": ["composites", "materials"]
-    },
-    {
-      "id": "aero-structural-engineer",
-      "canonical_name": "Aerodynamics / Structural Engineer",
-      "domain": "Mechanical / Physical Design",
-      "description": "Aerodynamics and structural strength analysis.",
-      "market_titles": ["Aerodynamics Engineer", "Structural Engineer", "Strength Engineer"],
-      "primary_path": ["Mechanical / Physical Design", "Aero & Structures", "Aerodynamics / Structural Engineer"],
-      "tags": ["aero", "structures", "strength"]
-    },
-    {
-      "id": "industrial-designer",
-      "canonical_name": "Industrial Designer",
-      "domain": "Mechanical / Physical Design",
-      "description": "Industrial/product design for hardware.",
-      "market_titles": ["Industrial Designer", "Product Designer (hardware)"],
-      "primary_path": ["Mechanical / Physical Design", "Industrial Design", "Industrial Designer"],
-      "tags": ["industrial-design", "product-design"]
-    },
-
-    {
-      "id": "systems-engineer",
-      "canonical_name": "Systems Engineer",
-      "domain": "Systems & Integration",
-      "description": "System-level architecture and integration ownership.",
-      "market_titles": ["UAV Systems Engineer", "Drone System Engineer", "System Integration Engineer"],
-      "primary_path": ["Systems & Integration", "Systems Engineering", "Systems Engineer"],
-      "tags": ["systems", "integration", "architecture"]
-    },
-    {
-      "id": "integration-engineer",
-      "canonical_name": "Integration Engineer",
-      "domain": "Systems & Integration",
-      "description": "Cross-functional HW/SW integration and bring-up.",
-      "market_titles": [
-        "Integration Engineer",
-        "Lead Integration Engineer",
-        "Cross-Functional Integration Engineer",
-        "HW/SW Integration Engineer"
-      ],
-      "primary_path": ["Systems & Integration", "Integration", "Integration Engineer"],
-      "tags": ["integration", "hw-sw", "bringup"]
-    },
-    {
-      "id": "test-field-engineer",
-      "canonical_name": "Test / Field Engineer",
-      "domain": "Systems & Integration",
-      "description": "Field testing and validation of UAV/systems.",
-      "market_titles": ["Flight Test Engineer", "UAV Tester", "Field Testing Lead", "Validation Engineer"],
-      "primary_path": ["Systems & Integration", "Test & Field", "Test / Field Engineer"],
-      "tags": ["test", "field", "validation"]
-    },
-
-    {
-      "id": "software-qa-engineer",
-      "canonical_name": "Software QA Engineer",
-      "domain": "Engineering QA",
-      "description": "Software quality assurance (manual/automation).",
-      "market_titles": ["QA Engineer", "Manual QA Engineer", "Automation QA Engineer"],
-      "primary_path": ["Engineering QA", "Software QA", "Software QA Engineer"],
-      "tags": ["qa", "software", "testing"]
-    },
-    {
-      "id": "embedded-qa-engineer",
-      "canonical_name": "Embedded QA Engineer",
-      "domain": "Engineering QA",
-      "description": "QA for embedded/UAV systems.",
-      "market_titles": ["Embedded QA Engineer", "UAV QA Engineer", "Manual QA Engineer (Embedded / UAV)"],
-      "primary_path": ["Engineering QA", "Embedded QA", "Embedded QA Engineer"],
-      "tags": ["qa", "embedded", "uav"]
+      "tags": ["rf", "antenna", "em"]
     },
     {
       "id": "quality-engineer",
@@ -385,195 +191,58 @@
       "description": "Quality assurance in production / hardware contexts.",
       "market_titles": [
         "Quality Engineer",
-        "Production Quality Engineer",
+        "Quality Control Engineer",
         "Hardware Quality Engineer",
+        "Інженер з якості",
         "Контролер ВТК",
         "Інженер ВТК"
       ],
       "primary_path": ["Engineering QA", "Quality", "Quality Engineer"],
       "tags": ["quality", "vtc", "manufacturing"]
     },
-
-    {
-      "id": "talent-acquisition-manager",
-      "canonical_name": "Talent Acquisition Manager",
-      "domain": "People & Talent",
-      "description": "Leads hiring strategy and recruitment operations.",
-      "market_titles": ["Talent Acquisition Manager"],
-      "primary_path": ["People & Talent", "Talent Acquisition", "Talent Acquisition Manager"],
-      "tags": ["ta", "recruiting", "people"]
-    },
     {
       "id": "technical-recruiter",
       "canonical_name": "Technical Recruiter",
       "domain": "People & Talent",
       "description": "Recruiter specialized in engineering roles.",
-      "market_titles": ["Technical Recruiter"],
+      "market_titles": [
+        "Technical Recruiter",
+        "IT Recruiter",
+        "ІТ-рекрутер",
+        "Технічний рекрутер",
+        "Рекрутер інженерних спеціальностей"
+      ],
       "primary_path": ["People & Talent", "Recruitment", "Technical Recruiter"],
       "tags": ["recruiting", "engineering", "people"]
     },
     {
-      "id": "talent-sourcer",
-      "canonical_name": "Talent Sourcer",
-      "domain": "People & Talent",
-      "description": "Sourcing specialists for hard-to-find talent.",
-      "market_titles": ["Talent Sourcer"],
-      "primary_path": ["People & Talent", "Sourcing", "Talent Sourcer"],
-      "tags": ["sourcing", "research", "people"]
+      "id": "procurement-specialist",
+      "canonical_name": "Procurement Specialist",
+      "domain": "Procurement & Supply Chain",
+      "description": "Procurement and supplier management.",
+      "market_titles": [
+        "Procurement Specialist",
+        "Procurement Manager",
+        "Менеджер із закупівель",
+        "Фахівець із закупівель",
+        "Спеціаліст із постачання"
+      ],
+      "primary_path": ["Procurement & Supply Chain", "Procurement", "Procurement Specialist"],
+      "tags": ["procurement", "supply"]
     },
     {
-      "id": "hrbp",
-      "canonical_name": "HR Business Partner (HRBP)",
-      "domain": "People & Talent",
-      "description": "HRBP partnering with engineering/business teams.",
-      "market_titles": ["HR Business Partner (HRBP)"],
-      "primary_path": ["People & Talent", "HRBP", "HR Business Partner (HRBP)"],
-      "tags": ["hrbp", "people"]
-    },
-    {
-      "id": "people-operations-manager",
-      "canonical_name": "People Operations Manager",
-      "domain": "People & Talent",
-      "description": "People operations leadership and processes.",
-      "market_titles": ["People Operations Manager"],
-      "primary_path": ["People & Talent", "People Operations", "People Operations Manager"],
-      "tags": ["people-ops", "operations", "hr"]
-    },
-    {
-      "id": "hr-operations-specialist",
-      "canonical_name": "HR Operations Specialist",
-      "domain": "People & Talent",
-      "description": "HR ops support, documentation and administration.",
-      "market_titles": ["HR Operations Specialist"],
-      "primary_path": ["People & Talent", "People Operations", "HR Operations Specialist"],
-      "tags": ["hr-ops", "operations"]
-    },
-    {
-      "id": "employer-brand-manager",
-      "canonical_name": "Employer Brand Manager",
-      "domain": "People & Talent",
-      "description": "Employer branding and talent marketing.",
-      "market_titles": ["Employer Brand Manager"],
-      "primary_path": ["People & Talent", "Employer Brand", "Employer Brand Manager"],
-      "tags": ["employer-brand", "marketing", "people"]
-    },
-    {
-      "id": "learning-development-manager",
-      "canonical_name": "Learning & Development Manager",
-      "domain": "People & Talent",
-      "description": "Learning programs and development pathways.",
-      "market_titles": ["Learning & Development Manager"],
-      "primary_path": ["People & Talent", "L&D", "Learning & Development Manager"],
-      "tags": ["ld", "training", "people"]
-    },
-    {
-      "id": "organizational-development-manager",
-      "canonical_name": "Organizational Development Manager",
-      "domain": "People & Talent",
-      "description": "Org design and development, performance systems.",
-      "market_titles": ["Organizational Development Manager"],
-      "primary_path": ["People & Talent", "OD", "Organizational Development Manager"],
-      "tags": ["od", "org-design", "people"]
-    },
-    {
-      "id": "people-analytics-specialist",
-      "canonical_name": "People Analytics Specialist",
-      "domain": "People & Talent",
-      "description": "Workforce analytics and HR metrics.",
-      "market_titles": ["People Analytics Specialist"],
-      "primary_path": ["People & Talent", "People Analytics", "People Analytics Specialist"],
-      "tags": ["people-analytics", "data", "hr"]
-    },
-
-    {
-      "id": "production-engineer",
-      "canonical_name": "Production Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Production support and improvements on the factory floor.",
-      "market_titles": ["Production Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Production", "Production Engineer"],
-      "tags": ["production", "manufacturing"]
-    },
-    {
-      "id": "manufacturing-engineer",
-      "canonical_name": "Manufacturing Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Manufacturing process engineering and production readiness.",
-      "market_titles": ["Manufacturing Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Manufacturing", "Manufacturing Engineer"],
-      "tags": ["manufacturing", "process"]
-    },
-    {
-      "id": "process-engineer",
-      "canonical_name": "Process Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Defines and optimizes manufacturing processes.",
-      "market_titles": ["Process Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Process", "Process Engineer"],
-      "tags": ["process", "optimization", "manufacturing"]
-    },
-    {
-      "id": "quality-engineer-production",
-      "canonical_name": "Quality Engineer (Production)",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Production quality and manufacturing consistency.",
-      "market_titles": ["Quality Engineer (Production)"],
-      "primary_path": ["Manufacturing / Production Engineering", "Quality", "Quality Engineer (Production)"],
-      "tags": ["quality", "production"]
-    },
-    {
-      "id": "test-calibration-engineer",
-      "canonical_name": "Test & Calibration Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Production testing and calibration workflows.",
-      "market_titles": ["Test & Calibration Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Test & Calibration", "Test & Calibration Engineer"],
-      "tags": ["test", "calibration", "production"]
-    },
-    {
-      "id": "industrialization-engineer",
-      "canonical_name": "Industrialization Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "NPI and ramp-up from prototype to series production.",
-      "market_titles": ["Industrialization Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "NPI / Industrialization", "Industrialization Engineer"],
-      "tags": ["industrialization", "npi", "ramp-up"]
-    },
-    {
-      "id": "assembly-build-engineer",
-      "canonical_name": "Assembly / Build Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Assembly/build processes and work instructions.",
-      "market_titles": ["Assembly / Build Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Assembly", "Assembly / Build Engineer"],
-      "tags": ["assembly", "build", "manufacturing"]
-    },
-    {
-      "id": "electronics-assembly-engineer",
-      "canonical_name": "Electronics Assembly Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Electronics assembly and production of electronic modules.",
-      "market_titles": ["Electronics Assembly Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Electronics Assembly", "Electronics Assembly Engineer"],
-      "tags": ["electronics", "assembly", "pcba"]
-    },
-    {
-      "id": "smt-process-engineer",
-      "canonical_name": "SMT Process Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "SMT process engineering for PCBA production.",
-      "market_titles": ["SMT Process Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "SMT", "SMT Process Engineer"],
-      "tags": ["smt", "pcba", "manufacturing"]
-    },
-    {
-      "id": "manufacturing-operations-engineer",
-      "canonical_name": "Manufacturing Operations Engineer",
-      "domain": "Manufacturing / Production Engineering",
-      "description": "Manufacturing operations and factory execution support.",
-      "market_titles": ["Manufacturing Operations Engineer"],
-      "primary_path": ["Manufacturing / Production Engineering", "Operations", "Manufacturing Operations Engineer"],
-      "tags": ["operations", "factory", "manufacturing"]
+      "id": "sales-manager-defense",
+      "canonical_name": "Sales Manager (Defense)",
+      "domain": "Sales & Business Development",
+      "description": "Sales of defense and miltech solutions.",
+      "market_titles": [
+        "Sales Manager (Defense)",
+        "Sales Manager (MilTech)",
+        "Менеджер з продажу оборонних рішень",
+        "Менеджер з B2G продажів"
+      ],
+      "primary_path": ["Sales & Business Development", "Sales", "Sales Manager (Defense)"],
+      "tags": ["sales", "b2g", "defense"]
     }
   ]
 }
