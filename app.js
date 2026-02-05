@@ -145,6 +145,9 @@ async function init() {
 
   renderTree(document.getElementById("tree"), TREE);
 
+  document.getElementById("expandAll")?.addEventListener("click", () => setAllTreeNodes(true));
+document.getElementById("collapseAll")?.addEventListener("click", () => setAllTreeNodes(false));
+
   const indexed = indexRoles(ROLES);
   const search = document.getElementById("search");
 
