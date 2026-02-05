@@ -1,5 +1,7 @@
 let ROLES = [];
 let TREE = {};
+
+// Мапа домен → CSS-клас
 const DOMAIN_CLASS = {
   "Manufacturing / Production Engineering": "manufacturing",
   "Embedded Engineering": "embedded",
@@ -29,7 +31,6 @@ function renderTree(container, treeObj, prefix = []) {
 
       const pathPrefix = [...prefix, key];
       showResultsByPathPrefix(pathPrefix);
-      renderResults(list);
       history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
     });
 
@@ -55,32 +56,34 @@ function showResultsByPathPrefix(pathPrefix) {
 function renderResults(list) {
   const res = document.getElementById("results");
   res.innerHTML = "";
+
   for (const r of list) {
     const div = document.createElement("div");
     div.className = "item";
+
     div.innerHTML = `
-     <div>
-  <div>
-  <strong>${r.canonical_name}</strong>
-  <span class="badge domain ${DOMAIN_CLASS[r.domain] || ""}">${r.domain}</span>
-</div>
-  <span class="badge domain-${(r.domain || "").toLowerCase().split(" ")[0]}">
-    ${r.domain}
-  </span>
-</div>
+      <div>
+        <strong>${r.canonical_name}</strong>
+        <span class="badge domain ${DOMAIN_CLASS[r.domain] || ""}">
+          ${r.domain}
+        </span>
+      </div>
       <div class="small">${(r.primary_path || []).join(" → ")}</div>
       <div class="small">${(r.market_titles || []).slice(0, 4).join(" • ")}</div>
     `;
+
     div.addEventListener("click", () => {
       renderRole(r);
       history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
     });
+
     res.appendChild(div);
   }
 }
 
 function renderRole(r) {
   const box = document.getElementById("role");
+
   box.innerHTML = `
     <div class="kv"><strong>Роль:</strong> ${r.canonical_name}</div>
     <div class="kv"><strong>Домен:</strong> ${r.domain || "—"}</div>
@@ -88,7 +91,9 @@ function renderRole(r) {
     <div class="kv"><strong>Опис:</strong> ${r.description || "—"}</div>
     <div class="kv"><strong>Синоніми:</strong> ${(r.market_titles || []).join(", ") || "—"}</div>
     <div class="kv"><strong>Теги:</strong>
-      <div class="tags">${(r.tags || []).map(t => `<span class="badge">${t}</span>`).join("") || "—"}</div>
+      <div class="tags">
+        ${(r.tags || []).map(t => `<span class="badge">${t}</span>`).join("") || "—"}
+      </div>
     </div>
   `;
 }
@@ -110,7 +115,7 @@ async function init() {
   const data = await fetch("./roles.json").then(r => r.json());
   ROLES = data.roles || [];
 
-  // Build tree from primary_path
+  // Будуємо дерево з primary_path
   TREE = {};
   for (const r of ROLES) {
     const path = r.primary_path || [r.domain, r.canonical_name];
@@ -125,14 +130,17 @@ async function init() {
 
   const indexed = indexRoles(ROLES);
   const search = document.getElementById("search");
+
   search.addEventListener("input", () => {
     const q = search.value.trim().toLowerCase();
     if (!q) return renderResults(ROLES);
     const out = indexed.filter(x => x.hay.includes(q)).map(x => x.role);
     renderResults(out);
+    if (out.length) renderRole(out[0]);
   });
 
   renderResults(ROLES);
+  if (ROLES.length) renderRole(ROLES[0]);
 
   // Deep link: #role=<id>
   const hash = decodeURIComponent(location.hash || "");
@@ -144,5 +152,6 @@ async function init() {
 }
 
 init().catch(err => {
-  document.getElementById("role").textContent = "Помилка завантаження roles.json: " + err;
+  document.getElementById("role").textContent =
+    "Помилка завантаження roles.json: " + err;
 });
