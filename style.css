@@ -48,3 +48,12 @@ a { color: inherit; }
 .badge.domain.qa { background: #fff0f0; border-color: #ffb9b9; }
 .badge.domain.people { background: #f7fff0; border-color: #d6ffb9; }
 .badge.domain.manufacturing { background: #f0fffb; border-color: #b9ffe9; }
+.tree-actions { display: flex; gap: 8px; margin: 8px 0 12px; }
+.tree-actions button {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.tree-actions button:hover { border-color: #ccc; }
