@@ -114,12 +114,15 @@ function renderResults(roles) {
   roles.forEach(role => {
     const card = document.createElement("div");
     card.className = "result-card";
-    card.innerHTML = `
-      <h3>${role.canonical_name}</h3>
-      <div class="pill">${role.domain}</div>
-      <div class="path">${role.primary_path.join(" → ")}</div>
-      <div class="muted">${role.market_titles.join(" • ")}</div>
-    `;
+   card.innerHTML = `
+  <h3>${role.canonical_name}</h3>
+  <div class="badges">
+    <span class="badge domain domain-${slug(role.domain)}">${role.domain}</span>
+    <span class="badge section">${role.primary_path?.[1] || "—"}</span>
+  </div>
+  <div class="path">${role.primary_path.join(" → ")}</div>
+  <div class="muted">${role.market_titles.join(" • ")}</div>
+`;
 
     card.addEventListener("click", () => {
       renderRole(role);
