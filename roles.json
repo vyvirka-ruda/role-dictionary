@@ -530,3 +530,50 @@
       "primary_path": ["Manufacturing / Production Engineering", "Test & Calibration", "Test & Calibration Engineer"],
       "tags": ["test", "calibration", "production"]
     },
+    {
+      "id": "industrialization-engineer",
+      "canonical_name": "Industrialization Engineer",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "NPI and ramp-up from prototype to series production.",
+      "market_titles": ["Industrialization Engineer"],
+      "primary_path": ["Manufacturing / Production Engineering", "NPI / Industrialization", "Industrialization Engineer"],
+      "tags": ["industrialization", "npi", "ramp-up"]
+    },
+    {
+      "id": "assembly-build-engineer",
+      "canonical_name": "Assembly / Build Engineer",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "Assembly/build processes and work instructions.",
+      "market_titles": ["Assembly / Build Engineer"],
+      "primary_path": ["Manufacturing / Production Engineering", "Assembly", "Assembly / Build Engineer"],
+      "tags": ["assembly", "build", "manufacturing"]
+    },
+    {
+      "id": "electronics-assembly-engineer",
+      "canonical_name": "Electronics Assembly Engineer",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "Electronics assembly and production of electronic modules.",
+      "market_titles": ["Electronics Assembly Engineer"],
+      "primary_path": ["Manufacturing / Production Engineering", "Electronics Assembly", "Electronics Assembly Engineer"],
+      "tags": ["electronics", "assembly", "pcba"]
+    },
+    {
+      "id": "smt-process-engineer",
+      "canonical_name": "SMT Process Engineer",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "SMT process engineering for PCBA production.",
+      "market_titles": ["SMT Process Engineer"],
+      "primary_path": ["Manufacturing / Production Engineering", "SMT", "SMT Process Engineer"],
+      "tags": ["smt", "pcba", "manufacturing"]
+    },
+    {
+      "id": "manufacturing-operations-engineer",
+      "canonical_name": "Manufacturing Operations Engineer",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "Manufacturing operations and factory execution support.",
+      "market_titles": ["Manufacturing Operations Engineer"],
+      "primary_path": ["Manufacturing / Production Engineering", "Operations", "Manufacturing Operations Engineer"],
+      "tags": ["operations", "factory", "manufacturing"]
+    }
+  ]
+}
