@@ -28,3 +28,23 @@ a { color: inherit; }
 .badge.domain.embedded { background: #eef3ff; border-color: #b7c9ff; }
 .badge.domain.systems { background: #f3edff; border-color: #c9b7ff; }
 .badge.domain.people { background: #fff3e8; border-color: #ffd1a8; }
+/* Domain badge (unified) */
+.badge.domain {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+/* Domain colors */
+.badge.domain.software { background: #eef3ff; border-color: #b7c9ff; }
+.badge.domain.embedded { background: #eef7f1; border-color: #b7dfc8; }
+.badge.domain.autonomy { background: #f3edff; border-color: #c9b7ff; }
+.badge.domain.hardware { background: #fff6e8; border-color: #ffd1a8; }
+.badge.domain.mechanical { background: #f0f7ff; border-color: #b9dcff; }
+.badge.domain.systems { background: #f7f0ff; border-color: #d8b9ff; }
+.badge.domain.qa { background: #fff0f0; border-color: #ffb9b9; }
+.badge.domain.people { background: #f7fff0; border-color: #d6ffb9; }
+.badge.domain.manufacturing { background: #f0fffb; border-color: #b9ffe9; }
