@@ -60,7 +60,10 @@ function renderResults(list) {
     div.className = "item";
     div.innerHTML = `
      <div>
+  <div>
   <strong>${r.canonical_name}</strong>
+  <span class="badge domain ${DOMAIN_CLASS[r.domain] || ""}">${r.domain}</span>
+</div>
   <span class="badge domain-${(r.domain || "").toLowerCase().split(" ")[0]}">
     ${r.domain}
   </span>
