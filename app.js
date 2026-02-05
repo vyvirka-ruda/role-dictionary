@@ -20,6 +20,18 @@ function renderTree(container, treeObj, prefix = []) {
     const node = document.createElement("div");
     node.className = "node";
 
+function setAllTreeNodes(open) {
+  document.querySelectorAll("#tree .node").forEach(node => {
+    const row = node.querySelector(":scope > .row");
+    const badge = row?.querySelector(".badge");
+    const children = node.querySelector(":scope > div:nth-child(2)");
+    if (!children || !badge) return;
+
+    children.style.display = open ? "block" : "none";
+    badge.textContent = open ? "–" : "+";
+  });
+}
+    
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `<span class="badge">+</span><span>${key}</span>`;
