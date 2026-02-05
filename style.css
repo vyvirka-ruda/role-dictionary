@@ -86,3 +86,19 @@ header button#reset:hover { border-color: #bbb; }
 header button#reset { display: none; }
 header button#reset.show { display: inline-block; }
 
+.badge.domain {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.badge.domain.engrd   { background: #eef3ff; border-color: #b7c9ff; }
+.badge.domain.itsec   { background: #fff0f0; border-color: #ffb9b9; }
+.badge.domain.product { background: #f3edff; border-color: #c9b7ff; }
+.badge.domain.ops     { background: #f0fffb; border-color: #b9ffe9; }
+.badge.domain.gtm     { background: #fff6e8; border-color: #ffd1a8; }
+.badge.domain.peopleops { background: #f7fff0; border-color: #d6ffb9; }
+
