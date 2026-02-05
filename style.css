@@ -23,3 +23,8 @@ a { color: inherit; }
 .badge.domain-embedded { background: #eef3ff; border-color: #b7c9ff; }
 .badge.domain-autonomy { background: #f3edff; border-color: #c9b7ff; }
 .badge.domain-people { background: #fff3e8; border-color: #ffd1a8; }
+.badge.domain { font-size: 12px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 999px; margin-left: 8px; }
+.badge.domain.manufacturing { background: #eef7f1; border-color: #b7dfc8; }
+.badge.domain.embedded { background: #eef3ff; border-color: #b7c9ff; }
+.badge.domain.systems { background: #f3edff; border-color: #c9b7ff; }
+.badge.domain.people { background: #fff3e8; border-color: #ffd1a8; }
