@@ -1,7 +1,7 @@
 let ROLES = [];
 let TREE = {};
 
-// Мапа домен → CSS-клас
+// Domain -> CSS class
 const DOMAIN_CLASS = {
   "Software Engineering": "software",
   "Embedded Engineering": "embedded",
@@ -14,47 +14,22 @@ const DOMAIN_CLASS = {
   "Manufacturing / Production Engineering": "manufacturing"
 };
 
+function renderResultsEmpty() {
+  const res = document.getElementById("results");
+  res.innerHTML = `<div class="empty">Оберіть гілку в дереві, щоб побачити ролі.</div>`;
+}
+
+function renderRoleEmpty() {
+  const box = document.getElementById("role");
+  box.innerHTML = `<div class="empty">Оберіть роль у “Результатах”, щоб побачити картку.</div>`;
+}
+
 function renderTree(container, treeObj, prefix = []) {
   container.innerHTML = "";
   for (const key of Object.keys(treeObj)) {
     const node = document.createElement("div");
     node.className = "node";
 
-function highlightTreePath(path) {
-  document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
-
-  let container = document.getElementById("tree");
-  let prefix = [];
-
-  path.forEach(part => {
-    prefix.push(part);
-    const nodes = Array.from(container.children);
-    const node = nodes.find(n => n.querySelector(".row span:last-child")?.textContent === part);
-    if (!node) return;
-
-    node.classList.add("active");
-    const children = node.querySelector(":scope > div:nth-child(2)");
-    if (children) {
-      children.style.display = "block";
-      const badge = node.querySelector(".badge");
-      if (badge) badge.textContent = "–";
-      container = children;
-    }
-  });
-}
-    
-function setAllTreeNodes(open) {
-  document.querySelectorAll("#tree .node").forEach(node => {
-    const row = node.querySelector(":scope > .row");
-    const badge = row?.querySelector(".badge");
-    const children = node.querySelector(":scope > div:nth-child(2)");
-    if (!children || !badge) return;
-
-    children.style.display = open ? "block" : "none";
-    badge.textContent = open ? "–" : "+";
-  });
-}
-    
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `<span class="badge">+</span><span>${key}</span>`;
@@ -79,23 +54,14 @@ function setAllTreeNodes(open) {
   }
 }
 
-function showResultsByPathPrefix(pathPrefix) {
-  const list = ROLES.filter(r => {
-    const p = r.primary_path || [];
-    if (p.length < pathPrefix.length) return false;
-    for (let i = 0; i < pathPrefix.length; i++) {
-      if (p[i] !== pathPrefix[i]) return false;
-    }
-    return true;
-  });
-
-  renderResults(list);
-  if (list.length) renderRole(list[0]);
-}
-
 function renderResults(list) {
   const res = document.getElementById("results");
   res.innerHTML = "";
+
+  if (!list.length) {
+    res.innerHTML = `<div class="empty">Нічого не знайдено.</div>`;
+    return;
+  }
 
   for (const r of list) {
     const div = document.createElement("div");
@@ -113,10 +79,10 @@ function renderResults(list) {
     `;
 
     div.addEventListener("click", () => {
-  renderRole(r);
-  highlightTreePath(r.primary_path || []);
-  history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
-});
+      renderRole(r);
+      highlightTreePath(r.primary_path || []);
+      history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
+    });
 
     res.appendChild(div);
   }
@@ -124,7 +90,6 @@ function renderResults(list) {
 
 function renderRole(r) {
   const box = document.getElementById("role");
-
   box.innerHTML = `
     <div class="kv"><strong>Роль:</strong> ${r.canonical_name}</div>
     <div class="kv"><strong>Домен:</strong> ${r.domain || "—"}</div>
@@ -137,6 +102,20 @@ function renderRole(r) {
       </div>
     </div>
   `;
+}
+
+function showResultsByPathPrefix(pathPrefix) {
+  const list = ROLES.filter(r => {
+    const p = r.primary_path || [];
+    if (p.length < pathPrefix.length) return false;
+    for (let i = 0; i < pathPrefix.length; i++) {
+      if (p[i] !== pathPrefix[i]) return false;
+    }
+    return true;
+  });
+
+  renderResults(list);
+  renderRoleEmpty();
 }
 
 function indexRoles(roles) {
@@ -152,11 +131,58 @@ function indexRoles(roles) {
   });
 }
 
+function setAllTreeNodes(open) {
+  document.querySelectorAll("#tree .node").forEach(node => {
+    const row = node.querySelector(":scope > .row");
+    const badge = row?.querySelector(".badge");
+    const children = node.querySelector(":scope > div:nth-child(2)");
+    if (!children || !badge) return;
+
+    children.style.display = open ? "block" : "none";
+    badge.textContent = open ? "–" : "+";
+  });
+}
+
+function highlightTreePath(path) {
+  document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
+
+  let container = document.getElementById("tree");
+  const prefix = [];
+
+  path.forEach(part => {
+    prefix.push(part);
+
+    const nodes = Array.from(container.children);
+    const node = nodes.find(n => n.querySelector(".row span:last-child")?.textContent === part);
+    if (!node) return;
+
+    node.classList.add("active");
+
+    const children = node.querySelector(":scope > div:nth-child(2)");
+    if (children) {
+      children.style.display = "block";
+      const badge = node.querySelector(".badge");
+      if (badge) badge.textContent = "–";
+      container = children;
+    }
+  });
+}
+
+function showResultsForRoleContext(role) {
+  // Show a useful list when opening via #role=
+  // Default: show all roles in the same domain
+  const domainList = ROLES.filter(r => r.domain === role.domain);
+
+  renderResults(domainList);
+  // Ensure the clicked role is visible in the list context
+  // (Optional: could scroll or highlight later)
+}
+
 async function init() {
   const data = await fetch("./roles.json").then(r => r.json());
   ROLES = data.roles || [];
 
-  // Будуємо дерево з primary_path
+  // Build tree from primary_path
   TREE = {};
   for (const r of ROLES) {
     const path = r.primary_path || [r.domain, r.canonical_name];
@@ -170,32 +196,39 @@ async function init() {
   renderTree(document.getElementById("tree"), TREE);
 
   document.getElementById("expandAll")?.addEventListener("click", () => setAllTreeNodes(true));
-document.getElementById("collapseAll")?.addEventListener("click", () => setAllTreeNodes(false));
+  document.getElementById("collapseAll")?.addEventListener("click", () => setAllTreeNodes(false));
 
   const indexed = indexRoles(ROLES);
   const search = document.getElementById("search");
 
+  // стартові порожні стани
+  renderResultsEmpty();
+  renderRoleEmpty();
+
   search.addEventListener("input", () => {
     const q = search.value.trim().toLowerCase();
-    if (!q) return renderResults(ROLES);
+
+    if (!q) {
+      renderResultsEmpty();
+      renderRoleEmpty();
+      return;
+    }
+
     const out = indexed.filter(x => x.hay.includes(q)).map(x => x.role);
     renderResults(out);
-    if (out.length) renderRole(out[0]);
+    renderRoleEmpty();
   });
-
-  renderResults(ROLES);
-  if (ROLES.length) renderRole(ROLES[0]);
 
   // Deep link: #role=<id>
   const hash = decodeURIComponent(location.hash || "");
   if (hash.startsWith("#role=")) {
     const id = hash.replace("#role=", "");
-    const r = ROLES.find(x => x.id === id);
-    if (r) {
-  renderRole(r);
-  highlightTreePath(r.primary_path || []);
-}
-
+    const role = ROLES.find(x => x.id === id);
+    if (role) {
+      showResultsForRoleContext(role);
+      renderRole(role);
+      highlightTreePath(role.primary_path || []);
+    }
   }
 }
 
