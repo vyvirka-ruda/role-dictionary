@@ -19,3 +19,7 @@ a { color: inherit; }
 .kv { margin: 8px 0; }
 .kv strong { display: inline-block; width: 140px; color: #444; }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge.domain-manufacturing { background: #eef7f1; border-color: #b7dfc8; }
+.badge.domain-embedded { background: #eef3ff; border-color: #b7c9ff; }
+.badge.domain-autonomy { background: #f3edff; border-color: #c9b7ff; }
+.badge.domain-people { background: #fff3e8; border-color: #ffd1a8; }
