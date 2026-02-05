@@ -24,7 +24,6 @@ function renderTree(container, treeObj, prefix = []) {
       const pathPrefix = [...prefix, key];
       showResultsByPathPrefix(pathPrefix);
       renderResults(list);
-      if (list.length) renderRole(list[0]);
 if (list.length) renderRole(list[0]);
       history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
     });
@@ -45,6 +44,7 @@ function showResultsByPathPrefix(pathPrefix) {
   });
 
   renderResults(list);
+  if (list.length) renderRole(list[0]);
 }
 
 function renderResults(list) {
