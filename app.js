@@ -3,10 +3,15 @@ let TREE = {};
 
 // Мапа домен → CSS-клас
 const DOMAIN_CLASS = {
-  "Manufacturing / Production Engineering": "manufacturing",
+  "Software Engineering": "software",
   "Embedded Engineering": "embedded",
+  "Autonomy / Robotics / AI": "autonomy",
+  "Hardware & Electronics": "hardware",
+  "Mechanical / Physical Design": "mechanical",
   "Systems & Integration": "systems",
-  "People & Talent": "people"
+  "Engineering QA": "qa",
+  "People & Talent": "people",
+  "Manufacturing / Production Engineering": "manufacturing"
 };
 
 function renderTree(container, treeObj, prefix = []) {
