@@ -48,92 +48,91 @@
         "Hardware & Electronics"
       ],
       "tags": ["uav", "autopilot", "embedded", "control"]
+    },
+    {
+      "id": "embedded-linux-engineer",
+      "canonical_name": "Embedded Linux Engineer",
+      "domain": "Embedded Engineering",
+      "description": "Engineer developing Linux-based embedded systems and BSPs.",
+      "market_titles": [
+        "Embedded Linux Developer",
+        "Senior Embedded Linux Engineer",
+        "Embedded Software Engineer (Linux)"
+      ],
+      "primary_path": [
+        "Embedded Engineering",
+        "Embedded Linux",
+        "Embedded Linux Engineer"
+      ],
+      "tags": ["embedded", "linux", "yocto", "bsp"]
+    },
+    {
+      "id": "motor-control-engineer",
+      "canonical_name": "Motor Control Engineer",
+      "domain": "Embedded Engineering",
+      "description": "Engineer responsible for motor control algorithms and real-time control.",
+      "market_titles": [
+        "FOC Engineer",
+        "ESC Engineer",
+        "Embedded Motor Control Engineer"
+      ],
+      "primary_path": [
+        "Embedded Engineering",
+        "Motor Control",
+        "Motor Control Engineer"
+      ],
+      "tags": ["motor", "foc", "control", "embedded"]
+    },
+    {
+      "id": "systems-engineer",
+      "canonical_name": "Systems Engineer",
+      "domain": "Systems & Integration",
+      "description": "Engineer responsible for system-level architecture and integration.",
+      "market_titles": [
+        "UAV Systems Engineer",
+        "System Integration Engineer",
+        "Drone Systems Engineer"
+      ],
+      "primary_path": [
+        "Systems & Integration",
+        "Systems Engineering",
+        "Systems Engineer"
+      ],
+      "tags": ["systems", "integration", "architecture"]
+    },
+    {
+      "id": "production-quality-engineer",
+      "canonical_name": "Quality Engineer (Production)",
+      "domain": "Manufacturing / Production Engineering",
+      "description": "Engineer responsible for production quality and manufacturing consistency.",
+      "market_titles": [
+        "Production Quality Engineer",
+        "Manufacturing Quality Engineer",
+        "Quality Engineer"
+      ],
+      "primary_path": [
+        "Manufacturing / Production Engineering",
+        "Quality Engineering",
+        "Quality Engineer (Production)"
+      ],
+      "tags": ["quality", "manufacturing", "production"]
+    },
+    {
+      "id": "technical-recruiter",
+      "canonical_name": "Technical Recruiter",
+      "domain": "People & Talent",
+      "description": "Recruiter specialized in hiring engineering roles.",
+      "market_titles": [
+        "IT Recruiter",
+        "Engineering Recruiter",
+        "Senior Technical Recruiter"
+      ],
+      "primary_path": [
+        "People & Talent",
+        "Recruitment",
+        "Technical Recruiter"
+      ],
+      "tags": ["recruiting", "people", "hiring"]
     }
   ]
 }
-{
-  "id": "embedded-linux-engineer",
-  "canonical_name": "Embedded Linux Engineer",
-  "domain": "Embedded Engineering",
-  "description": "Engineer developing Linux-based embedded systems and BSPs.",
-  "market_titles": [
-    "Embedded Linux Developer",
-    "Senior Embedded Linux Engineer",
-    "Embedded Software Engineer (Linux)"
-  ],
-  "primary_path": [
-    "Embedded Engineering",
-    "Embedded Linux",
-    "Embedded Linux Engineer"
-  ],
-  "tags": ["embedded", "linux", "yocto", "bsp"]
-}
-{
-  "id": "motor-control-engineer",
-  "canonical_name": "Motor Control Engineer",
-  "domain": "Embedded Engineering",
-  "description": "Engineer responsible for motor control algorithms and real-time control.",
-  "market_titles": [
-    "FOC Engineer",
-    "ESC Engineer",
-    "Embedded Motor Control Engineer"
-  ],
-  "primary_path": [
-    "Embedded Engineering",
-    "Motor Control",
-    "Motor Control Engineer"
-  ],
-  "tags": ["motor", "foc", "control", "embedded"]
-}
-{
-  "id": "systems-engineer",
-  "canonical_name": "Systems Engineer",
-  "domain": "Systems & Integration",
-  "description": "Engineer responsible for system-level architecture and integration.",
-  "market_titles": [
-    "UAV Systems Engineer",
-    "System Integration Engineer",
-    "Drone Systems Engineer"
-  ],
-  "primary_path": [
-    "Systems & Integration",
-    "Systems Engineering",
-    "Systems Engineer"
-  ],
-  "tags": ["systems", "integration", "architecture"]
-}
-{
-  "id": "production-quality-engineer",
-  "canonical_name": "Quality Engineer (Production)",
-  "domain": "Manufacturing / Production Engineering",
-  "description": "Engineer responsible for production quality and manufacturing consistency.",
-  "market_titles": [
-    "Production Quality Engineer",
-    "Manufacturing Quality Engineer",
-    "Quality Engineer"
-  ],
-  "primary_path": [
-    "Manufacturing / Production Engineering",
-    "Quality Engineering",
-    "Quality Engineer (Production)"
-  ],
-  "tags": ["quality", "manufacturing", "production"]
-}
-{
-  "id": "technical-recruiter",
-  "canonical_name": "Technical Recruiter",
-  "domain": "People & Talent",
-  "description": "Recruiter specialized in hiring engineering roles.",
-  "market_titles": [
-    "IT Recruiter",
-    "Engineering Recruiter",
-    "Senior Technical Recruiter"
-  ],
-  "primary_path": [
-    "People & Talent",
-    "Recruitment",
-    "Technical Recruiter"
-  ],
-  "tags": ["recruiting", "people", "hiring"]
-}
-]
