@@ -134,3 +134,52 @@ header button#reset.show { display: inline-block; }
   background: #f7f7f7;
   margin-left: 6px;
 }
+/* ===== Domain colors ===== */
+
+.badge.domain {
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+/* Engineering / R&D */
+.domain-engineering-r-d {
+  background: #eef2ff;
+  color: #3730a3;
+  border-color: #c7d2fe;
+}
+
+/* IT & Security */
+.domain-it-security {
+  background: #ecfeff;
+  color: #155e75;
+  border-color: #67e8f9;
+}
+
+/* Product & Delivery */
+.domain-product-delivery {
+  background: #f0fdf4;
+  color: #166534;
+  border-color: #86efac;
+}
+
+/* Production / Operations */
+.domain-production-operations {
+  background: #fff7ed;
+  color: #9a3412;
+  border-color: #fed7aa;
+}
+
+/* Go-to-Market & Corporate */
+.domain-go-to-market-corporate {
+  background: #fdf2f8;
+  color: #9d174d;
+  border-color: #fbcfe8;
+}
+
+/* People & Operations */
+.domain-people-operations {
+  background: #faf5ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
+}
+
