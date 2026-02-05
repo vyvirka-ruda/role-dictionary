@@ -83,3 +83,6 @@ header button#reset {
   cursor: pointer;
 }
 header button#reset:hover { border-color: #bbb; }
+header button#reset { display: none; }
+header button#reset.show { display: inline-block; }
+
