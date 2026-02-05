@@ -113,9 +113,10 @@ function renderResults(list) {
     `;
 
     div.addEventListener("click", () => {
-      renderRole(r);
-      history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
-    });
+  renderRole(r);
+  highlightTreePath(r.primary_path || []);
+  history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
+});
 
     res.appendChild(div);
   }
@@ -190,7 +191,11 @@ document.getElementById("collapseAll")?.addEventListener("click", () => setAllTr
   if (hash.startsWith("#role=")) {
     const id = hash.replace("#role=", "");
     const r = ROLES.find(x => x.id === id);
-    if (r) renderRole(r);
+    if (r) {
+  renderRole(r);
+  highlightTreePath(r.primary_path || []);
+}
+
   }
 }
 
