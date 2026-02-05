@@ -121,3 +121,16 @@ header button#reset.show { display: inline-block; }
 .badge.domain.domain-go-to-market-corporate { background: #fff6e8; border-color: #ffd1a8; }
 .badge.domain.domain-people-operations { background: #f7fff0; border-color: #d6ffb9; }
 
+.badges {
+  margin: 6px 0 6px 0;
+}
+
+.badge.section {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  display: inline-block;
+  background: #f7f7f7;
+  margin-left: 6px;
+}
