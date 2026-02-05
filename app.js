@@ -31,6 +31,8 @@ function renderRoleEmpty() {
 }
 
 function renderTree(container, treeObj, prefix = []) {
+  const MIN_DEPTH_FOR_RESULTS = 3; // 1 = домен, 2 = піддомен, 3 = ще глибше (Backend/Frontend/etc)
+
   container.innerHTML = "";
   for (const key of Object.keys(treeObj)) {
     const node = document.createElement("div");
@@ -46,7 +48,46 @@ function renderTree(container, treeObj, prefix = []) {
     node.appendChild(childrenWrap);
 
     row.addEventListener("click", () => {
-  const isOpen = childrenWrap.style.display !== "none";
+      const isOpen = childrenWrap.style.display !== "none";
+
+      // toggle UI
+      childrenWrap.style.display = isOpen ? "none" : "block";
+      row.querySelector(".badge").textContent = isOpen ? "+" : "–";
+
+      const pathPrefix = [...prefix, key];
+
+      if (!isOpen) {
+        // ВІДКРИЛИ гілку
+        if (pathPrefix.length >= MIN_DEPTH_FOR_RESULTS) {
+          // показуємо результати тільки з достатньої глибини
+          showResultsByPathPrefix(pathPrefix);
+          history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
+          setResetVisible(true);
+        } else {
+          // занадто високий рівень -> тримаємо Results/Role порожніми
+          renderResultsEmpty();
+          renderRoleEmpty();
+          history.replaceState({}, "", "#");
+          // reset показуємо тільки якщо є пошук
+          const search = document.getElementById("search");
+          setResetVisible(!!(search && search.value.trim()));
+        }
+      } else {
+        // ЗАКРИЛИ гілку -> сховати результати і картку
+        renderResultsEmpty();
+        renderRoleEmpty();
+        history.replaceState({}, "", "#");
+
+        const search = document.getElementById("search");
+        const hasSearch = !!(search && search.value.trim());
+        setResetVisible(hasSearch);
+      }
+    });
+
+    renderTree(childrenWrap, treeObj[key].__children || {}, [...prefix, key]);
+    container.appendChild(node);
+  }
+}
 
   // toggle UI
   childrenWrap.style.display = isOpen ? "none" : "block";
