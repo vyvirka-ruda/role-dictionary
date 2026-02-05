@@ -14,6 +14,12 @@ const DOMAIN_CLASS = {
   "Manufacturing / Production Engineering": "manufacturing"
 };
 
+function setResetVisible(visible) {
+  const btn = document.getElementById("reset");
+  if (!btn) return;
+  btn.classList.toggle("show", !!visible);
+}
+
 function renderResultsEmpty() {
   const res = document.getElementById("results");
   res.innerHTML = `<div class="empty">Оберіть гілку в дереві, щоб побачити ролі.</div>`;
@@ -47,6 +53,7 @@ function renderTree(container, treeObj, prefix = []) {
       const pathPrefix = [...prefix, key];
       showResultsByPathPrefix(pathPrefix);
       history.replaceState({}, "", `#path=${encodeURIComponent(pathPrefix.join(" > "))}`);
+      setResetVisible(true); // user interacted -> allow reset
     });
 
     renderTree(childrenWrap, treeObj[key].__children || {}, [...prefix, key]);
@@ -81,6 +88,7 @@ function renderResults(list) {
     div.addEventListener("click", () => {
       renderRole(r);
       highlightTreePath(r.primary_path || []);
+      setResetVisible(true);
       history.replaceState({}, "", `#role=${encodeURIComponent(r.id)}`);
     });
 
@@ -147,11 +155,8 @@ function highlightTreePath(path) {
   document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
 
   let container = document.getElementById("tree");
-  const prefix = [];
 
   path.forEach(part => {
-    prefix.push(part);
-
     const nodes = Array.from(container.children);
     const node = nodes.find(n => n.querySelector(".row span:last-child")?.textContent === part);
     if (!node) return;
@@ -169,13 +174,9 @@ function highlightTreePath(path) {
 }
 
 function showResultsForRoleContext(role) {
-  // Show a useful list when opening via #role=
-  // Default: show all roles in the same domain
+  // Useful list when opening via #role=: show all roles in same domain
   const domainList = ROLES.filter(r => r.domain === role.domain);
-
   renderResults(domainList);
-  // Ensure the clicked role is visible in the list context
-  // (Optional: could scroll or highlight later)
 }
 
 async function init() {
@@ -195,38 +196,58 @@ async function init() {
 
   renderTree(document.getElementById("tree"), TREE);
 
-  document.getElementById("expandAll")?.addEventListener("click", () => setAllTreeNodes(true));
-  document.getElementById("collapseAll")?.addEventListener("click", () => setAllTreeNodes(false));
+  document.getElementById("expandAll")?.addEventListener("click", () => {
+    setAllTreeNodes(true);
+    setResetVisible(true);
+  });
+
+  document.getElementById("collapseAll")?.addEventListener("click", () => {
+    setAllTreeNodes(false);
+    setResetVisible(true);
+  });
 
   const indexed = indexRoles(ROLES);
   const search = document.getElementById("search");
-  document.getElementById("reset")?.addEventListener("click", () => {
-  // очистити пошук
-  search.value = "";
-
-  // повернути порожні стани
-  renderResultsEmpty();
-  renderRoleEmpty();
-
-  // опційно: сховати всі гілки дерева
-  setAllTreeNodes(false);
-
-  // очистити hash
-  history.replaceState({}, "", "#");
-});
 
   // стартові порожні стани
   renderResultsEmpty();
   renderRoleEmpty();
+  setResetVisible(false);
 
+  // Reset button
+  document.getElementById("reset")?.addEventListener("click", () => {
+    // clear search
+    search.value = "";
+
+    // empty states
+    renderResultsEmpty();
+    renderRoleEmpty();
+
+    // collapse tree
+    setAllTreeNodes(false);
+
+    // clear selection highlight
+    document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
+
+    // clear hash
+    history.replaceState({}, "", "#");
+
+    // hide reset
+    setResetVisible(false);
+  });
+
+  // Search input
   search.addEventListener("input", () => {
     const q = search.value.trim().toLowerCase();
 
     if (!q) {
       renderResultsEmpty();
       renderRoleEmpty();
+      setResetVisible(false);
       return;
     }
+
+    setResetVisible(true);
 
     const out = indexed.filter(x => x.hay.includes(q)).map(x => x.role);
     renderResults(out);
@@ -242,6 +263,7 @@ async function init() {
       showResultsForRoleContext(role);
       renderRole(role);
       highlightTreePath(role.primary_path || []);
+      setResetVisible(true);
     }
   }
 }
