@@ -2,11 +2,8 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-body {
-  margin: 0;
-}
+body { margin: 0; }
 
-/* ===== Header ===== */
 header {
   padding: 16px;
   border-bottom: 1px solid #ddd;
@@ -15,31 +12,26 @@ header {
   align-items: center;
 }
 
-h1 {
-  margin: 0;
-  font-size: 18px;
-}
+h1 { margin: 0; font-size: 18px; }
 
 input {
   flex: 1;
   padding: 10px 12px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-/* Reset button visibility */
 header button#reset {
   padding: 10px 12px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   cursor: pointer;
   display: none;
 }
-header button#reset:hover { border-color: #bbb; }
 header button#reset.show { display: inline-block; }
+header button#reset:hover { border-color: #bbb; }
 
-/* ===== Layout ===== */
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -49,9 +41,10 @@ header button#reset.show { display: inline-block; }
 
 .panel {
   border: 1px solid #eee;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 12px;
   min-height: 60vh;
+  background: #fff;
 }
 
 .panel h2 {
@@ -60,198 +53,162 @@ header button#reset.show { display: inline-block; }
   color: #555;
 }
 
-/* ===== Tree ===== */
-.node {
-  margin-left: 14px;
-}
-
-.node > .row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 8px;
-}
-
-.node > .row:hover {
-  background: #f5f7fa;
-}
-
-.node.active > .row {
-  background: #f5f7fa;
-  font-weight: 600;
-}
-
-.tree-actions {
-  display: flex;
-  gap: 8px;
-  margin: 8px 0 12px;
-}
-
+.tree-actions { display: flex; gap: 8px; margin: 8px 0 12px; }
 .tree-actions button {
   padding: 6px 10px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   cursor: pointer;
 }
-
-.tree-actions button:hover {
-  border-color: #ccc;
-}
-
-/* ===== Generic UI pieces ===== */
-a { color: inherit; }
-
-.small {
-  color: #666;
-  font-size: 12px;
-}
+.tree-actions button:hover { border-color: #ccc; }
 
 .empty {
   border: 1px dashed #ddd;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 14px;
   color: #666;
   background: #fafafa;
   font-size: 14px;
 }
 
-/* ===== Cards in results ===== */
-.item,
-.result-card {
-  padding: 10px;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.item:hover,
-.result-card:hover {
-  border-color: #ddd;
-}
-
-/* ===== Role card ===== */
-.kv {
-  margin: 8px 0;
-}
-
-.kv strong {
-  display: inline-block;
-  width: 140px;
-  color: #444;
-}
-
-.tags {
+/* ===== Tree ===== */
+.node { margin-left: 14px; }
+.node > .row {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px 6px;
+  border-radius: 10px;
+}
+.node > .row:hover { background: #f5f7fa; }
+
+.node.active > .row {
+  background: #f5f7fa;
+  font-weight: 650;
 }
 
-/* ===== Badges ===== */
-.badges {
-  margin: 6px 0 6px 0;
+.row .toggle {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  color: #444;
+  font-size: 12px;
+  flex: 0 0 auto;
 }
 
-/* Small round badge in tree (+ / –) */
+/* ===== Result cards ===== */
+.result-card {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: #fff;
+}
+.result-card:hover { border-color: #ddd; }
+
+.result-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.badges { margin: 8px 0 8px; }
+
 .badge {
   font-size: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  color: #444;
-  display: inline-block;
-}
-
-/* Section badge in results (2nd pill) */
-.badge.section {
-  font-size: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ddd;
+  padding: 2px 10px;
   border-radius: 999px;
   display: inline-block;
+  border: 1px solid #ddd;
+  color: #333;
   background: #f7f7f7;
-  margin-left: 6px;
+}
+
+.badge.section { margin-left: 6px; }
+
+.path {
+  color: #444;
+  line-height: 1.35;
+  margin-top: 6px;
+}
+
+.muted { color: #666; margin-top: 6px; font-size: 13px; }
+
+/* ===== Role card ===== */
+.role-card h2 { margin: 0 0 10px; font-size: 18px; }
+
+.kv { margin: 10px 0; }
+.kv strong {
+  display: inline-block;
+  width: 90px;
   color: #444;
 }
 
-/* Domain badge base (NO background here — colors are set per domain-xxx class) */
-.badge.domain {
+.tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+
+.tag {
   font-size: 12px;
-  padding: 2px 8px;
+  padding: 2px 10px;
+  border: 1px solid #ddd;
   border-radius: 999px;
-  margin-left: 8px;
-  display: inline-block;
-  font-weight: 500;
-  border: 1px solid transparent;
+  background: #fff;
+  color: #444;
 }
 
-/* ===== Domain colors (based on class "domain-${slug(primary_path[0])}") ===== */
+/* ===== Domain colors (важливо: клас домену має вигляд domain-${slug(domain)}) ===== */
+.badge.domain { font-weight: 600; }
 
 /* Engineering / R&D */
-.domain-engineering-r-d {
+.badge.domain.domain-engineering-r-d {
   background: #eef2ff;
   color: #3730a3;
   border-color: #c7d2fe;
 }
 
 /* IT & Security */
-.domain-it-security {
+.badge.domain.domain-it-security {
   background: #ecfeff;
   color: #155e75;
   border-color: #67e8f9;
 }
 
 /* Product & Delivery */
-.domain-product-delivery {
+.badge.domain.domain-product-delivery {
   background: #f0fdf4;
   color: #166534;
   border-color: #86efac;
 }
 
 /* Production / Operations */
-.domain-production-operations {
+.badge.domain.domain-production-operations {
   background: #fff7ed;
   color: #9a3412;
   border-color: #fed7aa;
 }
 
 /* Go-to-Market & Corporate */
-.domain-go-to-market-corporate {
+.badge.domain.domain-go-to-market-corporate {
   background: #fdf2f8;
   color: #9d174d;
   border-color: #fbcfe8;
 }
 
 /* People & Operations */
-.domain-people-operations {
+.badge.domain.domain-people-operations {
   background: #faf5ff;
   color: #6b21a8;
   border-color: #e9d5ff;
 }
 
-/* (Optional) DevOps / Infrastructure / Security — if this becomes a top domain in primary_path[0] */
-.domain-devops-infrastructure-security {
-  background: #f0f0ff;
-  color: #4338ca;
-  border-color: #c4b5fd;
-}
-
-/* ===== Role card sections (if role.card fields exist) ===== */
-.section-title {
-  margin-top: 12px;
-  font-weight: 800;
-  font-size: 13px;
-  color: #222;
-}
-
-.bullets {
-  margin: 6px 0 0 18px;
-  color: #222;
-}
-
-.bullets li {
-  margin: 4px 0;
+/* Mobile */
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: 1fr; }
+  .panel { min-height: auto; }
+  .kv strong { width: 100px; }
 }
