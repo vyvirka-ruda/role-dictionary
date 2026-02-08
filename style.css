@@ -1,54 +1,94 @@
-:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-body { margin: 0; }
-header { padding: 16px; border-bottom: 1px solid #ddd; display: flex; gap: 12px; align-items: center; }
-h1 { margin: 0; font-size: 18px; }
-input { flex: 1; padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; }
-
-.layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 12px; }
-.panel { border: 1px solid #eee; border-radius: 14px; padding: 12px; min-height: 60vh; }
-.panel h2 { margin: 0 0 10px; font-size: 14px; color: #555; }
-
-.node { margin-left: 14px; }
-.node > .row { display: flex; gap: 8px; align-items: center; cursor: pointer; padding: 4px 0; }
-.badge { font-size: 12px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 999px; color: #444; }
-.small { color: #666; font-size: 12px; }
-a { color: inherit; }
-.item { padding: 10px; border: 1px solid #eee; border-radius: 12px; margin-bottom: 8px; cursor: pointer; }
-.item:hover { border-color: #ddd; }
-
-.kv { margin: 8px 0; }
-.kv strong { display: inline-block; width: 140px; color: #444; }
-.tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.badge.domain-manufacturing { background: #eef7f1; border-color: #b7dfc8; }
-.badge.domain-embedded { background: #eef3ff; border-color: #b7c9ff; }
-.badge.domain-autonomy { background: #f3edff; border-color: #c9b7ff; }
-.badge.domain-people { background: #fff3e8; border-color: #ffd1a8; }
-.badge.domain { font-size: 12px; padding: 2px 8px; border: 1px solid #ddd; border-radius: 999px; margin-left: 8px; }
-.badge.domain.manufacturing { background: #eef7f1; border-color: #b7dfc8; }
-.badge.domain.embedded { background: #eef3ff; border-color: #b7c9ff; }
-.badge.domain.systems { background: #f3edff; border-color: #c9b7ff; }
-.badge.domain.people { background: #fff3e8; border-color: #ffd1a8; }
-/* Domain badge (unified) */
-.badge.domain {
-  font-size: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  margin-left: 8px;
-  display: inline-block;
+:root {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Domain colors */
-.badge.domain.software { background: #eef3ff; border-color: #b7c9ff; }
-.badge.domain.embedded { background: #eef7f1; border-color: #b7dfc8; }
-.badge.domain.autonomy { background: #f3edff; border-color: #c9b7ff; }
-.badge.domain.hardware { background: #fff6e8; border-color: #ffd1a8; }
-.badge.domain.mechanical { background: #f0f7ff; border-color: #b9dcff; }
-.badge.domain.systems { background: #f7f0ff; border-color: #d8b9ff; }
-.badge.domain.qa { background: #fff0f0; border-color: #ffb9b9; }
-.badge.domain.people { background: #f7fff0; border-color: #d6ffb9; }
-.badge.domain.manufacturing { background: #f0fffb; border-color: #b9ffe9; }
-.tree-actions { display: flex; gap: 8px; margin: 8px 0 12px; }
+body {
+  margin: 0;
+}
+
+/* ===== Header ===== */
+header {
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+/* Reset button visibility */
+header button#reset {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  display: none;
+}
+header button#reset:hover { border-color: #bbb; }
+header button#reset.show { display: inline-block; }
+
+/* ===== Layout ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+
+.panel {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 60vh;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* ===== Tree ===== */
+.node {
+  margin-left: 14px;
+}
+
+.node > .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+
+.node > .row:hover {
+  background: #f5f7fa;
+}
+
+.node.active > .row {
+  background: #f5f7fa;
+  font-weight: 600;
+}
+
+.tree-actions {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
 .tree-actions button {
   padding: 6px 10px;
   border: 1px solid #ddd;
@@ -56,12 +96,19 @@ a { color: inherit; }
   background: #fff;
   cursor: pointer;
 }
-.tree-actions button:hover { border-color: #ccc; }
-.node.active > .row {
-  background: #f5f7fa;
-  border-radius: 8px;
-  font-weight: 600;
+
+.tree-actions button:hover {
+  border-color: #ccc;
 }
+
+/* ===== Generic UI pieces ===== */
+a { color: inherit; }
+
+.small {
+  color: #666;
+  font-size: 12px;
+}
+
 .empty {
   border: 1px dashed #ddd;
   border-radius: 12px;
@@ -70,61 +117,55 @@ a { color: inherit; }
   background: #fafafa;
   font-size: 14px;
 }
-.node.active > .row {
-  background: #f5f7fa;
-  border-radius: 8px;
-  font-weight: 600;
-}
-header button#reset {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: #fff;
+
+/* ===== Cards in results ===== */
+.item,
+.result-card {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  margin-bottom: 8px;
   cursor: pointer;
 }
-header button#reset:hover { border-color: #bbb; }
-header button#reset { display: none; }
-header button#reset.show { display: inline-block; }
 
-.badge.domain {
-  font-size: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  margin-left: 8px;
-  display: inline-block;
+.item:hover,
+.result-card:hover {
+  border-color: #ddd;
 }
 
-.badge.domain.engrd   { background: #eef3ff; border-color: #b7c9ff; }
-.badge.domain.itsec   { background: #fff0f0; border-color: #ffb9b9; }
-.badge.domain.product { background: #f3edff; border-color: #c9b7ff; }
-.badge.domain.ops     { background: #f0fffb; border-color: #b9ffe9; }
-.badge.domain.gtm     { background: #fff6e8; border-color: #ffd1a8; }
-.badge.domain.peopleops { background: #f7fff0; border-color: #d6ffb9; }
-
-/* Domain badge */
-.badge.domain {
-  font-size: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  margin-left: 8px;
-  display: inline-block;
-  background: #f6f6f6;
+/* ===== Role card ===== */
+.kv {
+  margin: 8px 0;
 }
 
-/* New top-level domains (auto-slugged from role.domain) */
-.badge.domain.domain-engineering-r-d { background: #eef3ff; border-color: #b7c9ff; }
-.badge.domain.domain-it-security { background: #fff0f0; border-color: #ffb9b9; }
-.badge.domain.domain-product-delivery { background: #f3edff; border-color: #c9b7ff; }
-.badge.domain.domain-production-operations { background: #f0fffb; border-color: #b9ffe9; }
-.badge.domain.domain-go-to-market-corporate { background: #fff6e8; border-color: #ffd1a8; }
-.badge.domain.domain-people-operations { background: #f7fff0; border-color: #d6ffb9; }
+.kv strong {
+  display: inline-block;
+  width: 140px;
+  color: #444;
+}
 
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ===== Badges ===== */
 .badges {
   margin: 6px 0 6px 0;
 }
 
+/* Small round badge in tree (+ / –) */
+.badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  color: #444;
+  display: inline-block;
+}
+
+/* Section badge in results (2nd pill) */
 .badge.section {
   font-size: 12px;
   padding: 2px 8px;
@@ -133,13 +174,21 @@ header button#reset.show { display: inline-block; }
   display: inline-block;
   background: #f7f7f7;
   margin-left: 6px;
+  color: #444;
 }
-/* ===== Domain colors ===== */
 
+/* Domain badge base (NO background here — colors are set per domain-xxx class) */
 .badge.domain {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 8px;
+  display: inline-block;
   font-weight: 500;
   border: 1px solid transparent;
 }
+
+/* ===== Domain colors (based on class "domain-${slug(primary_path[0])}") ===== */
 
 /* Engineering / R&D */
 .domain-engineering-r-d {
@@ -183,3 +232,26 @@ header button#reset.show { display: inline-block; }
   border-color: #e9d5ff;
 }
 
+/* (Optional) DevOps / Infrastructure / Security — if this becomes a top domain in primary_path[0] */
+.domain-devops-infrastructure-security {
+  background: #f0f0ff;
+  color: #4338ca;
+  border-color: #c4b5fd;
+}
+
+/* ===== Role card sections (if role.card fields exist) ===== */
+.section-title {
+  margin-top: 12px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #222;
+}
+
+.bullets {
+  margin: 6px 0 0 18px;
+  color: #222;
+}
+
+.bullets li {
+  margin: 4px 0;
+}
