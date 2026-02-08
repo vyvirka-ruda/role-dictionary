@@ -11,6 +11,24 @@ function slug(s) {
     .replace(/^-+|-+$/g, "");
 }
 
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+// Домен для кольору беремо з primary_path[0], бо це твій реальний “MASTER DOMAIN”
+function getDomainLabel(role) {
+  return role?.primary_path?.[0] || role?.domain || "—";
+}
+
+function getSectionLabel(role) {
+  return role?.primary_path?.[1] || "—";
+}
+
 function setResetVisible(visible) {
   const btn = document.getElementById("reset");
   if (!btn) return;
@@ -30,7 +48,9 @@ function renderRoleEmpty() {
 function buildTreeFromRoles(roles) {
   const tree = {};
   for (const r of roles) {
-    const path = r.primary_path || [r.domain, r.canonical_name];
+    const domainLabel = getDomainLabel(r);
+    const path = r.primary_path || [domainLabel, r.canonical_name];
+
     let cur = tree;
     for (const part of path) {
       cur[part] = cur[part] || { __children: {} };
@@ -67,19 +87,21 @@ function renderResults(list) {
     const card = document.createElement("div");
     card.className = "result-card";
 
-    const domain = role.domain || "—";
-    const section = (role.primary_path && role.primary_path[1]) ? role.primary_path[1] : "—";
+    const domainLabel = getDomainLabel(role);
+    const domainClass = `domain-${slug(domainLabel)}`;
+    const section = getSectionLabel(role);
+
     const pathText = (role.primary_path || []).join(" → ");
     const titles = (role.market_titles || []).slice(0, 6).join(" • ");
 
     card.innerHTML = `
-      <h3>${role.canonical_name || "—"}</h3>
+      <h3>${escapeHtml(role.canonical_name || "—")}</h3>
       <div class="badges">
-        <span class="badge domain domain-${slug(domain)}">${domain}</span>
-        <span class="badge section">${section}</span>
+        <span class="badge domain ${escapeHtml(domainClass)}">${escapeHtml(domainLabel)}</span>
+        <span class="badge section">${escapeHtml(section)}</span>
       </div>
-      <div class="path">${pathText}</div>
-      <div class="muted">${titles}</div>
+      <div class="path">${escapeHtml(pathText)}</div>
+      <div class="muted">${escapeHtml(titles)}</div>
     `;
 
     card.addEventListener("click", () => {
@@ -95,18 +117,52 @@ function renderResults(list) {
 function renderRole(role) {
   const el = document.getElementById("role");
 
-  const domain = role.domain || "—";
+  const domainLabel = getDomainLabel(role);
+  const domainClass = `domain-${slug(domainLabel)}`;
+
   const pathText = (role.primary_path || []).join(" → ");
   const titles = (role.market_titles || []).join(", ");
-  const tags = (role.tags || []).map(t => `<span class="tag">${t}</span>`).join("");
+  const tags = (role.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+
+  const card = role.card || {};
+
+  function renderSection(title, value) {
+    if (!value) return "";
+    const arr = Array.isArray(value) ? value.filter(Boolean) : null;
+
+    if (arr && arr.length) {
+      return `
+        <div class="section-title">${escapeHtml(title)}</div>
+        <ul class="bullets">${arr.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+      `;
+    }
+
+    const text = String(value || "").trim();
+    if (!text) return "";
+    return `
+      <div class="section-title">${escapeHtml(title)}</div>
+      <div class="muted">${escapeHtml(text)}</div>
+    `;
+  }
 
   el.innerHTML = `
     <div class="role-card">
-      <h2>${role.canonical_name || "—"}</h2>
-      <div><b>Домен:</b> <span class="badge domain domain-${slug(domain)}">${domain}</span></div>
-      <div><b>Шлях:</b> ${pathText || "—"}</div>
-      <div><b>Опис:</b> ${role.description || "—"}</div>
-      <div><b>Синоніми:</b> ${titles || "—"}</div>
+      <h2>${escapeHtml(role.canonical_name || "—")}</h2>
+
+      <div><b>Домен:</b> <span class="badge domain ${escapeHtml(domainClass)}">${escapeHtml(domainLabel)}</span></div>
+      <div><b>Шлях:</b> ${escapeHtml(pathText || "—")}</div>
+      <div><b>Опис:</b> ${escapeHtml(role.description || "—")}</div>
+      <div><b>Синоніми:</b> ${escapeHtml(titles || "—")}</div>
+
+      ${renderSection("Role snapshot", card.role_snapshot)}
+      ${renderSection("Не плутати з іншими ролями", card.not_confuse)}
+      ${renderSection("Responsibilities", card.responsibilities)}
+      ${renderSection("Must-have", card.must_have)}
+      ${renderSection("Nice-to-have", card.nice_to_have)}
+      ${renderSection("Stack", card.stack)}
+      ${renderSection("Skills", card.skills)}
+
+      <div class="section-title">Теги</div>
       <div class="tags">${tags || "—"}</div>
     </div>
   `;
@@ -176,7 +232,7 @@ function renderTree(container, treeObj, prefix = []) {
 
     const row = document.createElement("div");
     row.className = "row";
-    row.innerHTML = `<span class="badge">+</span><span>${key}</span>`;
+    row.innerHTML = `<span class="badge">+</span><span>${escapeHtml(key)}</span>`;
     node.appendChild(row);
 
     const childrenWrap = document.createElement("div");
@@ -187,32 +243,26 @@ function renderTree(container, treeObj, prefix = []) {
     row.addEventListener("click", () => {
       const isOpen = childrenWrap.style.display !== "none";
 
-      // toggle
       childrenWrap.style.display = isOpen ? "none" : "block";
       row.querySelector(".badge").textContent = isOpen ? "+" : "–";
 
       const path = [...prefix, key];
 
       if (!isOpen) {
-        // opened
         if (path.length >= MIN_DEPTH_FOR_RESULTS) {
           showResultsByPathPrefix(path);
           history.replaceState({}, "", `#path=${encodeURIComponent(path.join(" > "))}`);
           setResetVisible(true);
         } else {
-          // opened too shallow: keep results empty
           renderResultsEmpty();
           renderRoleEmpty();
-
           const search = document.getElementById("search");
           setResetVisible(!!(search && search.value.trim()));
         }
       } else {
-        // closed
         renderResultsEmpty();
         renderRoleEmpty();
         history.replaceState({}, "", "#");
-
         const search = document.getElementById("search");
         setResetVisible(!!(search && search.value.trim()));
       }
@@ -239,11 +289,26 @@ function setupSearch() {
 
     const list = ROLES.filter(r => {
       const name = (r.canonical_name || "").toLowerCase();
-      const domain = (r.domain || "").toLowerCase();
+      const domain = getDomainLabel(r).toLowerCase();
       const titles = (r.market_titles || []).join(" ").toLowerCase();
       const tags = (r.tags || []).join(" ").toLowerCase();
       const path = (r.primary_path || []).join(" ").toLowerCase();
-      return (name + " " + domain + " " + titles + " " + tags + " " + path).includes(q);
+
+      const card = r.card || {};
+      const cardText = [
+        card.role_snapshot,
+        card.not_confuse,
+        card.responsibilities,
+        card.must_have,
+        card.nice_to_have,
+        card.stack,
+        card.skills
+      ]
+        .flat()
+        .join(" ")
+        .toLowerCase();
+
+      return (name + " " + domain + " " + titles + " " + tags + " " + path + " " + cardText).includes(q);
     });
 
     renderResults(list);
@@ -296,11 +361,9 @@ async function init() {
     const id = hash.replace("#role=", "");
     const role = ROLES.find(r => r.id === id);
     if (role) {
-      // open full path in tree
       openTreePath(role.primary_path || []);
       highlightTreePath(role.primary_path || []);
 
-      // show results by MIN_DEPTH prefix (context)
       const prefix = (role.primary_path || []).slice(0, MIN_DEPTH_FOR_RESULTS);
       if (prefix.length >= MIN_DEPTH_FOR_RESULTS) {
         showResultsByPathPrefix(prefix);
@@ -308,7 +371,6 @@ async function init() {
         renderResultsEmpty();
       }
 
-      // open role card
       renderRole(role);
       setResetVisible(true);
     }
