@@ -4,24 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ROLE DICTIONARY — MilTech / Defence</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- cache-bust to avoid GitHub Pages caching -->
+  <link rel="stylesheet" href="style.css?v=2026-02-08-1" />
 </head>
 <body>
   <header>
     <h1>ROLE DICTIONARY</h1>
     <input id="search" placeholder="Пошук: роль, синонім, тег…" autocomplete="off" />
-<button id="reset" type="button">Відновити</button>
+    <button id="reset" type="button">Відновити</button>
   </header>
 
   <main class="layout">
     <section class="panel">
-  <h2>Дерево</h2>
-  <div class="tree-actions">
-    <button id="expandAll" type="button">Expand all</button>
-    <button id="collapseAll" type="button">Collapse all</button>
-  </div>
-  <div id="tree"></div>
-</section>
+      <h2>Дерево</h2>
+      <div class="tree-actions">
+        <button id="expandAll" type="button">Expand all</button>
+        <button id="collapseAll" type="button">Collapse all</button>
+      </div>
+      <div id="tree"></div>
+    </section>
 
     <section class="panel">
       <h2>Результати</h2>
@@ -34,6 +36,7 @@
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <!-- cache-bust -->
+  <script src="app.js?v=2026-02-08-1"></script>
 </body>
 </html>
