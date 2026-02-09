@@ -1,17 +1,20 @@
 /* =========================
-   ROLE DICTIONARY — app.js
-   Works with:
+   ROLE DICTIONARY — app.js (robust matching)
    - roles.json: ARRAY of role objects
    - structure.json: { engineering:{name,children}, non_engineering:{name,children} }
-   - Shows results ONLY on leaf nodes (no “mash” on intermediate levels)
-   - Renders FULL role card (all fields from roles.json)
+   - Shows results on subdomain+ level (prevents “mash” on root)
+   - FULL role card rendering
 ========================= */
 
 let ROLES = [];
 let ROLE_BY_ID = new Map();
 let STRUCTURE = null;
 
-const SHOW_RESULTS_ONLY_ON_LEAF = true;
+const MIN_DEPTH_FOR_RESULTS = 2; // домен -> піддомен
+
+// Indexes for robust matching
+let ROLE_BY_TITLE = new Map();    // key: normalized title -> Role[]
+let ROLE_BY_ALIAS = new Map();    // key: normalized alias -> Role[]
 
 /* =========================
    UTILS
@@ -25,15 +28,22 @@ function slug(s) {
     .replace(/^-+|-+$/g, "");
 }
 
-function norm(s) {
-  return String(s || "").trim().toLowerCase();
-}
-
 function esc(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+// Robust normalization (fixes NBSP, zero-width, multiple spaces, dash variants)
+function norm(s) {
+  return String(s || "")
+    .replace(/\u00A0/g, " ")         // NBSP -> space
+    .replace(/[\u200B-\u200D\uFEFF]/g, "") // zero-width
+    .replace(/[–—]/g, "-")           // long dashes -> hyphen
+    .replace(/\s+/g, " ")            // collapse whitespace
+    .trim()
+    .toLowerCase();
 }
 
 function uniq(arr) {
@@ -51,13 +61,11 @@ function setResetVisible(visible) {
 }
 
 function renderResultsEmpty(text = "Оберіть гілку дерева") {
-  const el = document.getElementById("results");
-  el.innerHTML = `<div class="empty">${esc(text)}</div>`;
+  document.getElementById("results").innerHTML = `<div class="empty">${esc(text)}</div>`;
 }
 
 function renderRoleEmpty(text = 'Оберіть роль у “Результатах”, щоб побачити картку.') {
-  const el = document.getElementById("role");
-  el.innerHTML = `<div class="empty">${esc(text)}</div>`;
+  document.getElementById("role").innerHTML = `<div class="empty">${esc(text)}</div>`;
 }
 
 function clearActive() {
@@ -96,9 +104,30 @@ function normalizeRoles(raw) {
 
 function indexRoles(roles) {
   ROLE_BY_ID = new Map();
-  roles.forEach(r => {
+  ROLE_BY_TITLE = new Map();
+  ROLE_BY_ALIAS = new Map();
+
+  const pushMap = (m, key, role) => {
+    if (!key) return;
+    const k = norm(key);
+    if (!k) return;
+    if (!m.has(k)) m.set(k, []);
+    m.get(k).push(role);
+  };
+
+  for (const r of roles) {
     if (r?.id) ROLE_BY_ID.set(r.id, r);
-  });
+
+    // title
+    pushMap(ROLE_BY_TITLE, r.title, r);
+
+    // aliases/synonyms
+    const syn = r.content?.job_title_synonyms || [];
+    for (const s of syn) pushMap(ROLE_BY_ALIAS, s, r);
+
+    // (optional) also index by title as alias
+    pushMap(ROLE_BY_ALIAS, r.title, r);
+  }
 }
 
 /* =========================
@@ -113,17 +142,24 @@ function flattenStructureRoots(structure) {
 }
 
 function findRolesForLeafName(leafName) {
-  const target = norm(leafName);
+  const key = norm(leafName);
 
-  // 1) exact match by title
-  let matches = ROLES.filter(r => norm(r.title) === target);
-  if (matches.length) return matches;
+  // 1) exact by title
+  const byTitle = ROLE_BY_TITLE.get(key);
+  if (byTitle && byTitle.length) return byTitle;
 
-  // 2) fallback: match by synonyms
-  matches = ROLES.filter(r =>
-    (r.content?.job_title_synonyms || []).some(s => norm(s) === target)
-  );
-  return matches;
+  // 2) by alias/synonym
+  const byAlias = ROLE_BY_ALIAS.get(key);
+  if (byAlias && byAlias.length) return byAlias;
+
+  // 3) slug-based fallback (rare)
+  const leafSlug = slug(key);
+  if (leafSlug) {
+    const hit = ROLES.filter(r => slug(norm(r.title)) === leafSlug);
+    if (hit.length) return hit;
+  }
+
+  return [];
 }
 
 function attachRolesToStructure(node, path = []) {
@@ -146,7 +182,7 @@ function attachRolesToStructure(node, path = []) {
 }
 
 /* =========================
-   RENDER: RESULTS
+   RESULTS
 ========================= */
 
 function renderResults(list) {
@@ -185,7 +221,7 @@ function renderResults(list) {
 }
 
 /* =========================
-   RENDER: FULL ROLE CARD
+   FULL ROLE CARD
 ========================= */
 
 function renderList(arr) {
@@ -279,7 +315,7 @@ function renderRole(role) {
 }
 
 /* =========================
-   RENDER: TREE
+   TREE
 ========================= */
 
 function renderStructureTree(container, nodes, prefix = []) {
@@ -320,7 +356,7 @@ function renderStructureTree(container, nodes, prefix = []) {
       clearActive();
       node.classList.add("active");
 
-      // If closed -> reset view
+      // if closed
       if (hasChildren && isOpen) {
         renderResultsEmpty("Оберіть гілку дерева");
         renderRoleEmpty();
@@ -330,10 +366,11 @@ function renderStructureTree(container, nodes, prefix = []) {
       }
 
       const roles = nodeObj.__meta?.roles || [];
-      const isLeaf = !!nodeObj.__meta?.isLeaf;
+      const path = [...prefix, nodeObj.name];
 
-      if (SHOW_RESULTS_ONLY_ON_LEAF && !isLeaf) {
-        renderResultsEmpty("Розгорніть гілку до конкретної ролі");
+      // prevent mash on root
+      if (path.length < MIN_DEPTH_FOR_RESULTS) {
+        renderResultsEmpty("Розгорніть піддомен, щоб побачити ролі");
         renderRoleEmpty();
         setResetVisible(true);
         return;
@@ -350,7 +387,6 @@ function renderStructureTree(container, nodes, prefix = []) {
       renderRoleEmpty();
       setResetVisible(true);
 
-      const path = [...prefix, nodeObj.name];
       history.replaceState({}, "", `#path=${encodeURIComponent(path.join(" > "))}`);
     });
 
@@ -415,7 +451,6 @@ function setupSearch() {
 ========================= */
 
 async function init() {
-  // 1) roles.json (ARRAY)
   const rolesRaw = await fetch("./roles.json").then(r => r.json());
   ROLES = normalizeRoles(rolesRaw);
 
@@ -429,14 +464,11 @@ async function init() {
 
   indexRoles(ROLES);
 
-  // 2) structure.json
   STRUCTURE = await fetch("./structure.json").then(r => r.json());
   const roots = flattenStructureRoots(STRUCTURE);
 
-  // 3) attach roles to structure
   for (const r of roots) attachRolesToStructure(r, []);
 
-  // 4) render tree
   renderStructureTree(document.getElementById("tree"), roots);
 
   document.getElementById("expandAll")?.addEventListener("click", () => {
@@ -454,7 +486,6 @@ async function init() {
   setupSearch();
   setResetVisible(false);
 
-  // Deep link #role=
   const hash = decodeURIComponent(location.hash || "");
   if (hash.startsWith("#role=")) {
     const id = hash.replace("#role=", "");
