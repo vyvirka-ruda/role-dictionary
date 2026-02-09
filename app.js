@@ -1,506 +1,214 @@
-/* =========================
-   ROLE DICTIONARY — app.js (robust matching)
-   - roles.json: ARRAY of role objects
-   - structure.json: { engineering:{name,children}, non_engineering:{name,children} }
-   - Shows results on subdomain+ level (prevents “mash” on root)
-   - FULL role card rendering
-========================= */
+/* app.js — leaf only rendering */
 
-let ROLES = [];
-let ROLE_BY_ID = new Map();
-let STRUCTURE = null;
+const TREE_EL = document.getElementById("tree");
+const RESULTS_EL = document.getElementById("results");
 
-const MIN_DEPTH_FOR_RESULTS = 2; // домен -> піддомен
+let structure = null;          // structure.json (tree + order)
+let roles = [];                // roles.json (flat list)
+let roleByTitle = new Map();   // title -> role
 
-// Indexes for robust matching
-let ROLE_BY_TITLE = new Map();    // key: normalized title -> Role[]
-let ROLE_BY_ALIAS = new Map();    // key: normalized alias -> Role[]
+// ---------- boot ----------
+(async function init() {
+  structure = await fetchJSON("structure.json");
+  roles = await fetchJSON("roles.json");
 
-/* =========================
-   UTILS
-========================= */
+  // Index roles by title (leaf == exact match to role.title)
+  roleByTitle = new Map(
+    roles
+      .filter(r => r && typeof r.title === "string")
+      .map(r => [normalizeTitle(r.title), r])
+  );
 
-function slug(s) {
-  return String(s || "")
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  renderTree(structure, TREE_EL);
+  clearResults(); // нічого не показуємо на старті
+})().catch(err => {
+  console.error(err);
+  RESULTS_EL.innerHTML = `<div class="error">Помилка завантаження даних</div>`;
+});
+
+// ---------- io ----------
+async function fetchJSON(path) {
+  const res = await fetch(path, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
+  return await res.json();
 }
 
-function esc(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
+// ---------- rendering: tree ----------
+function renderTree(structureJson, mountEl) {
+  mountEl.innerHTML = "";
 
-// Robust normalization (fixes NBSP, zero-width, multiple spaces, dash variants)
-function norm(s) {
-  return String(s || "")
-    .replace(/\u00A0/g, " ")         // NBSP -> space
-    .replace(/[\u200B-\u200D\uFEFF]/g, "") // zero-width
-    .replace(/[–—]/g, "-")           // long dashes -> hyphen
-    .replace(/\s+/g, " ")            // collapse whitespace
-    .trim()
-    .toLowerCase();
-}
+  // Очікуємо, що structure.json уже містить правильний порядок блоків
+  // і 3 рівні: level1 -> level2 -> leaf(role.title)
+  // Підтримуємо 2 поширені форми:
+  // A) { blocks: [{ title, children:[{title, children:[{title}]}]}] }
+  // B) [{ title, children:[...]}]
+  const blocks = Array.isArray(structureJson)
+    ? structureJson
+    : Array.isArray(structureJson.blocks)
+      ? structureJson.blocks
+      : [];
 
-function uniq(arr) {
-  return Array.from(new Set(arr || []));
-}
+  const ul = document.createElement("ul");
+  ul.className = "tree-root";
 
-/* =========================
-   UI HELPERS
-========================= */
-
-function setResetVisible(visible) {
-  const btn = document.getElementById("reset");
-  if (!btn) return;
-  btn.classList.toggle("show", !!visible);
-}
-
-function renderResultsEmpty(text = "Оберіть гілку дерева") {
-  document.getElementById("results").innerHTML = `<div class="empty">${esc(text)}</div>`;
-}
-
-function renderRoleEmpty(text = 'Оберіть роль у “Результатах”, щоб побачити картку.') {
-  document.getElementById("role").innerHTML = `<div class="empty">${esc(text)}</div>`;
-}
-
-function clearActive() {
-  document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
-}
-
-function setAllTreeNodes(open) {
-  document.querySelectorAll("#tree .node").forEach(node => {
-    const row = node.querySelector(":scope > .row");
-    const toggleEl = row?.querySelector(".toggle");
-    const children = node.querySelector(":scope > .children");
-    if (!children || !toggleEl) return;
-
-    children.style.display = open ? "block" : "none";
-    toggleEl.textContent = open ? "–" : "+";
-  });
-}
-
-/* =========================
-   ROLES NORMALIZATION + INDEX
-========================= */
-
-function normalizeRoles(raw) {
-  const arr = Array.isArray(raw) ? raw : (raw?.roles || []);
-  return (arr || []).map(r => ({
-    ...r,
-    title: r.title || "—",
-    domain: r.domain || "—",
-    category_path: Array.isArray(r.category_path) ? r.category_path : [],
-    tags: Array.isArray(r.tags) ? r.tags : [],
-    summary: r.summary || {},
-    content: r.content || {},
-    meta: r.meta || {}
-  }));
-}
-
-function indexRoles(roles) {
-  ROLE_BY_ID = new Map();
-  ROLE_BY_TITLE = new Map();
-  ROLE_BY_ALIAS = new Map();
-
-  const pushMap = (m, key, role) => {
-    if (!key) return;
-    const k = norm(key);
-    if (!k) return;
-    if (!m.has(k)) m.set(k, []);
-    m.get(k).push(role);
-  };
-
-  for (const r of roles) {
-    if (r?.id) ROLE_BY_ID.set(r.id, r);
-
-    // title
-    pushMap(ROLE_BY_TITLE, r.title, r);
-
-    // aliases/synonyms
-    const syn = r.content?.job_title_synonyms || [];
-    for (const s of syn) pushMap(ROLE_BY_ALIAS, s, r);
-
-    // (optional) also index by title as alias
-    pushMap(ROLE_BY_ALIAS, r.title, r);
-  }
-}
-
-/* =========================
-   STRUCTURE HELPERS
-========================= */
-
-function flattenStructureRoots(structure) {
-  const roots = [];
-  if (structure?.engineering) roots.push(structure.engineering);
-  if (structure?.non_engineering) roots.push(structure.non_engineering);
-  return roots;
-}
-
-function findRolesForLeafName(leafName) {
-  const key = norm(leafName);
-
-  // 1) exact by title
-  const byTitle = ROLE_BY_TITLE.get(key);
-  if (byTitle && byTitle.length) return byTitle;
-
-  // 2) by alias/synonym
-  const byAlias = ROLE_BY_ALIAS.get(key);
-  if (byAlias && byAlias.length) return byAlias;
-
-  // 3) slug-based fallback (rare)
-  const leafSlug = slug(key);
-  if (leafSlug) {
-    const hit = ROLES.filter(r => slug(norm(r.title)) === leafSlug);
-    if (hit.length) return hit;
+  for (const block of blocks) {
+    ul.appendChild(renderNode(block, 1));
   }
 
-  return [];
+  mountEl.appendChild(ul);
 }
 
-function attachRolesToStructure(node, path = []) {
-  const currentPath = [...path, node.name];
+function renderNode(node, level) {
+  const li = document.createElement("li");
+  li.className = `tree-node level-${level}`;
+
+  const header = document.createElement("button");
+  header.type = "button";
+  header.className = "tree-label";
+  header.textContent = node.title ?? "Untitled";
+
+  // Визначаємо leaf строго:
+  // leaf = level === 3 (або node.leaf === true), і title має відповідати role.title 1:1
+  const isLeaf = isLeafNode(node, level);
+
+  if (isLeaf) {
+    header.classList.add("is-leaf");
+    header.addEventListener("click", () => onLeafClick(node.title));
+    li.appendChild(header);
+    return li;
+  }
+
+  // НЕ leaf: клік лише toggle, без renderResults
+  header.classList.add("is-branch");
+  header.setAttribute("aria-expanded", "false");
+
+  const childrenWrap = document.createElement("div");
+  childrenWrap.className = "tree-children";
+  childrenWrap.hidden = true;
+
   const children = Array.isArray(node.children) ? node.children : [];
+  const ul = document.createElement("ul");
+  for (const child of children) ul.appendChild(renderNode(child, level + 1));
+  childrenWrap.appendChild(ul);
 
-  if (!children.length) {
-    const roles = findRolesForLeafName(node.name);
-    node.__meta = { path: currentPath, roles, isLeaf: true };
-    return roles;
-  }
+  header.addEventListener("click", () => {
+    const next = childrenWrap.hidden; // відкриваємо якщо було закрито
+    childrenWrap.hidden = !next;
+    header.setAttribute("aria-expanded", String(next));
+    // ВАЖЛИВО: тут НІЧОГО не рендеримо в results
+  });
 
-  let roles = [];
-  for (const ch of children) {
-    roles = roles.concat(attachRolesToStructure(ch, currentPath));
-  }
-
-  node.__meta = { path: currentPath, roles, isLeaf: false };
-  return roles;
+  li.appendChild(header);
+  li.appendChild(childrenWrap);
+  return li;
 }
 
-/* =========================
-   RESULTS
-========================= */
+function isLeafNode(node, level) {
+  // “Без магії”: leaf — це тільки 3-й рівень структури (або явний прапорець)
+  if (node && node.leaf === true) return true;
+  return level === 3;
+}
 
-function renderResults(list) {
-  const el = document.getElementById("results");
-  el.innerHTML = "";
+// ---------- interaction: leaf click ----------
+function onLeafClick(title) {
+  const key = normalizeTitle(title);
+  const role = roleByTitle.get(key);
 
-  if (!list || !list.length) {
-    el.innerHTML = `<div class="empty">Немає ролей у цій гілці.</div>`;
+  if (!role) {
+    // leaf у дереві є, але ролі в roles.json нема — показуємо “not found”
+    renderResults([{ title, _missing: true }]);
     return;
   }
 
-  for (const role of list) {
-    const card = document.createElement("div");
-    card.className = "result-card";
+  // ЄДИНИЙ дозволений шлях:
+  // leaf-click → renderResults([role]) → renderRole(role)
+  renderResults([role]);
+}
 
-    const pathText = (role.category_path || []).join(" → ");
-    const synonyms = (role.content?.job_title_synonyms || []).slice(0, 8).join(" • ");
+// ---------- rendering: results ----------
+function clearResults() {
+  RESULTS_EL.innerHTML = `<div class="hint">Обери конкретну роль (leaf) у дереві.</div>`;
+}
 
-    card.innerHTML = `
-      <h3>${esc(role.title)}</h3>
-      <div class="badges">
-        <span class="badge domain domain-${slug(role.domain)}">${esc(role.domain)}</span>
-      </div>
-      <div class="path">${esc(pathText || "—")}</div>
-      <div class="muted">${esc(synonyms || "")}</div>
-    `;
+function renderResults(items) {
+  RESULTS_EL.innerHTML = "";
 
-    card.addEventListener("click", () => {
-      renderRole(role);
-      history.replaceState({}, "", `#role=${encodeURIComponent(role.id)}`);
-      setResetVisible(true);
-    });
-
-    el.appendChild(card);
+  // За правилами тут очікуємо масив з 1 роллю, але робимо універсально
+  for (const role of items) {
+    RESULTS_EL.appendChild(renderRole(role));
   }
-}
-
-/* =========================
-   FULL ROLE CARD
-========================= */
-
-function renderList(arr) {
-  if (!arr || !arr.length) return `<div class="muted">—</div>`;
-  return `<ul>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
-}
-
-function renderNotToConfuse(arr) {
-  if (!arr || !arr.length) return `<div class="muted">—</div>`;
-  return `
-    <ul>
-      ${arr.map(x => `<li><strong>${esc(x.role)}</strong> — ${esc(x.description)}</li>`).join("")}
-    </ul>
-  `;
 }
 
 function renderRole(role) {
-  const el = document.getElementById("role");
+  const card = document.createElement("article");
+  card.className = "role-card";
 
-  const domain = role.domain || "—";
-  const pathText = (role.category_path || []).join(" → ");
+  const h = document.createElement("h3");
+  h.className = "role-title";
+  h.textContent = role.title ?? "Untitled role";
+  card.appendChild(h);
 
-  const snapshot = role.summary?.role_snapshot || "—";
-  const notToConfuse = role.summary?.not_to_confuse || [];
-
-  const core = role.content?.core_role_in_product || [];
-  const resp = role.content?.typical_responsibilities || [];
-  const stack = role.content?.typical_stack_and_tools || [];
-  const context = role.content?.product_context || [];
-  const synonyms = role.content?.job_title_synonyms || [];
-  const notes = role.content?.recruiter_notes || [];
-
-  const tagsHtml = uniq(role.tags || [])
-    .map(t => `<span class="tag">${esc(t)}</span>`)
-    .join("");
-
-  const meta = role.meta || {};
-  const metaLine = [
-    meta.status ? `status: ${meta.status}` : "",
-    (meta.version !== undefined && meta.version !== null) ? `v${meta.version}` : "",
-    meta.updated_at ? `updated: ${meta.updated_at}` : ""
-  ].filter(Boolean).join(" • ") || "—";
-
-  el.innerHTML = `
-    <div class="role-card">
-      <div class="muted">Картка ролі</div>
-      <h2>${esc(role.title || "—")}</h2>
-
-      <div class="kv">
-        <strong>Домен:</strong>
-        <span class="badge domain domain-${slug(domain)}">${esc(domain)}</span>
-      </div>
-
-      <div class="kv">
-        <strong>Шлях:</strong> ${esc(pathText || "—")}
-      </div>
-
-      <hr/>
-
-      <h3>Role snapshot</h3>
-      <div>${esc(snapshot)}</div>
-
-      <h3>Не плутати з іншими ролями</h3>
-      ${renderNotToConfuse(notToConfuse)}
-
-      <h3>Роль у продукті</h3>
-      ${renderList(core)}
-
-      <h3>Типові задачі</h3>
-      ${renderList(resp)}
-
-      <h3>Стек / інструменти</h3>
-      ${renderList(stack)}
-
-      <h3>Контекст продукту</h3>
-      ${renderList(context)}
-
-      <h3>Нотатки рекрутера</h3>
-      ${renderList(notes)}
-
-      <h3>Синоніми</h3>
-      <div>${synonyms.length ? esc(synonyms.join(", ")) : "—"}</div>
-
-      <h3>Теги</h3>
-      <div class="tags">${tagsHtml || "—"}</div>
-
-      <h3>Meta</h3>
-      <div class="muted">${esc(metaLine)}</div>
-    </div>
-  `;
-}
-
-/* =========================
-   TREE
-========================= */
-
-function renderStructureTree(container, nodes, prefix = []) {
-  container.innerHTML = "";
-
-  for (const nodeObj of nodes) {
-    const node = document.createElement("div");
-    node.className = "node";
-
-    const row = document.createElement("div");
-    row.className = "row";
-
-    const hasChildren = Array.isArray(nodeObj.children) && nodeObj.children.length > 0;
-    row.innerHTML = `
-      <span class="toggle">${hasChildren ? "+" : "•"}</span>
-      <span class="label">${esc(nodeObj.name)}</span>
-    `;
-
-    node.appendChild(row);
-
-    const childrenWrap = document.createElement("div");
-    childrenWrap.className = "children";
-    childrenWrap.style.display = "none";
-    node.appendChild(childrenWrap);
-
-    if (hasChildren) {
-      renderStructureTree(childrenWrap, nodeObj.children, [...prefix, nodeObj.name]);
-    }
-
-    row.addEventListener("click", () => {
-      const isOpen = childrenWrap.style.display !== "none";
-
-      if (hasChildren) {
-        childrenWrap.style.display = isOpen ? "none" : "block";
-        row.querySelector(".toggle").textContent = isOpen ? "+" : "–";
-      }
-
-      clearActive();
-      node.classList.add("active");
-
-      // if closed
-      if (hasChildren && isOpen) {
-        renderResultsEmpty("Оберіть гілку дерева");
-        renderRoleEmpty();
-        history.replaceState({}, "", "#");
-        setResetVisible(false);
-        return;
-      }
-
-      const roles = nodeObj.__meta?.roles || [];
-      const path = [...prefix, nodeObj.name];
-
-      // prevent mash on root
-      if (path.length < MIN_DEPTH_FOR_RESULTS) {
-        renderResultsEmpty("Розгорніть піддомен, щоб побачити ролі");
-        renderRoleEmpty();
-        setResetVisible(true);
-        return;
-      }
-
-      if (!roles.length) {
-        renderResultsEmpty("Немає ролей у цій гілці");
-        renderRoleEmpty();
-        setResetVisible(true);
-        return;
-      }
-
-      renderResults(roles);
-      renderRoleEmpty();
-      setResetVisible(true);
-
-      history.replaceState({}, "", `#path=${encodeURIComponent(path.join(" > "))}`);
-    });
-
-    container.appendChild(node);
-  }
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-function setupSearch() {
-  const input = document.getElementById("search");
-  const resetBtn = document.getElementById("reset");
-
-  input.addEventListener("input", () => {
-    const q = norm(input.value);
-    if (!q) {
-      renderResultsEmpty();
-      renderRoleEmpty();
-      setResetVisible(location.hash.startsWith("#role="));
-      return;
-    }
-
-    const list = ROLES.filter(r => {
-      const hay = [
-        r.title,
-        r.domain,
-        ...(r.tags || []),
-        ...(r.content?.job_title_synonyms || []),
-        ...(r.category_path || []),
-        r.summary?.role_snapshot || "",
-        ...(r.content?.core_role_in_product || []),
-        ...(r.content?.typical_responsibilities || []),
-        ...(r.content?.typical_stack_and_tools || []),
-        ...(r.content?.product_context || []),
-        ...(r.content?.recruiter_notes || []),
-        ...(r.summary?.not_to_confuse || []).map(x => `${x.role} ${x.description}`)
-      ].join(" ").toLowerCase();
-
-      return hay.includes(q);
-    });
-
-    renderResults(list);
-    renderRoleEmpty();
-    setResetVisible(true);
-  });
-
-  resetBtn?.addEventListener("click", () => {
-    input.value = "";
-    renderResultsEmpty();
-    renderRoleEmpty();
-    setAllTreeNodes(false);
-    clearActive();
-    history.replaceState({}, "", "#");
-    setResetVisible(false);
-  });
-}
-
-/* =========================
-   INIT
-========================= */
-
-async function init() {
-  const rolesRaw = await fetch("./roles.json").then(r => r.json());
-  ROLES = normalizeRoles(rolesRaw);
-
-  if (!ROLES.length) {
-    document.getElementById("tree").innerHTML =
-      `<div class="empty">roles.json завантажився, але ролей немає.</div>`;
-    renderResultsEmpty("Немає ролей");
-    renderRoleEmpty();
-    return;
+  if (role._missing) {
+    const p = document.createElement("p");
+    p.className = "role-missing";
+    p.textContent =
+      "Цей leaf є в structure.json, але відповідної role.title немає в roles.json (1:1 не знайдено).";
+    card.appendChild(p);
+    return card;
   }
 
-  indexRoles(ROLES);
-
-  STRUCTURE = await fetch("./structure.json").then(r => r.json());
-  const roots = flattenStructureRoots(STRUCTURE);
-
-  for (const r of roots) attachRolesToStructure(r, []);
-
-  renderStructureTree(document.getElementById("tree"), roots);
-
-  document.getElementById("expandAll")?.addEventListener("click", () => {
-    setAllTreeNodes(true);
-    setResetVisible(true);
-  });
-
-  document.getElementById("collapseAll")?.addEventListener("click", () => {
-    setAllTreeNodes(false);
-    setResetVisible(true);
-  });
-
-  renderResultsEmpty();
-  renderRoleEmpty();
-  setupSearch();
-  setResetVisible(false);
-
-  const hash = decodeURIComponent(location.hash || "");
-  if (hash.startsWith("#role=")) {
-    const id = hash.replace("#role=", "");
-    const role = ROLE_BY_ID.get(id);
-    if (role) {
-      renderResults([role]);
-      renderRole(role);
-      setResetVisible(true);
-    }
+  // Мінімальний рендер (під твою фактичну схему roles.json можна розширити)
+  // Показуємо тільки те, що вже є в role об’єкті.
+  if (role.category) card.appendChild(kv("Category", role.category));
+  if (role.snapshot) card.appendChild(kv("Role snapshot", role.snapshot));
+  if (Array.isArray(role.not_confuse_with) && role.not_confuse_with.length) {
+    card.appendChild(listBlock("Не плутати з", role.not_confuse_with));
   }
+  if (role.source) card.appendChild(kv("Source", role.source));
+
+  // Якщо хочеш — можна показувати “raw” для дебагу (вимкнено за замовчуванням)
+  // card.appendChild(detailsJSON(role));
+
+  return card;
 }
 
-init().catch(err => {
-  const msg = "Помилка завантаження JSON: " + err;
-  document.getElementById("tree").innerHTML = `<div class="empty">${esc(msg)}</div>`;
-  document.getElementById("results").innerHTML = `<div class="empty">${esc(msg)}</div>`;
-  document.getElementById("role").innerHTML = `<div class="empty">${esc(msg)}</div>`;
-});
+function kv(label, value) {
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+
+  const dt = document.createElement("div");
+  dt.className = "kv-label";
+  dt.textContent = label;
+
+  const dd = document.createElement("div");
+  dd.className = "kv-value";
+  dd.textContent = String(value);
+
+  wrap.appendChild(dt);
+  wrap.appendChild(dd);
+  return wrap;
+}
+
+function listBlock(label, items) {
+  const wrap = document.createElement("div");
+  wrap.className = "list-block";
+
+  const t = document.createElement("div");
+  t.className = "list-title";
+  t.textContent = label;
+
+  const ul = document.createElement("ul");
+  for (const it of items) {
+    const li = document.createElement("li");
+    li.textContent = String(it);
+    ul.appendChild(li);
+  }
+
+  wrap.appendChild(t);
+  wrap.appendChild(ul);
+  return wrap;
+}
+
+function normalizeTitle(t) {
+  return String(t).trim();
+}
