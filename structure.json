@@ -3,369 +3,300 @@
     "name": "ENGINEERING / R&D",
     "children": [
       {
-        "name": "Engineering Management / R&D Leadership",
-        "children": [
-          {
-            "name": "Head of Engineering"
-          },
-          {
-            "name": "Engineering Manager"
-          },
-          {
-            "name": "Engineering Lead / Tech Lead (MilTech)"
-          },
-          {
-            "name": "Chief Architect / System Architect"
-          },
-          {
-            "name": "Lead Backend Developer"
-          },
-          {
-            "name": "Lead C++ Engineer (Hardware & Software)"
-          },
-          {
-            "name": "Lead C++ / Computer Vision Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Software Engineering (R&D)",
-        "children": [
-          {
-            "name": "Backend / Application Engineer"
-          },
-          {
-            "name": "Frontend / Full Stack Engineer (Internal Software)"
-          },
-          {
-            "name": "Systems / Linux Software Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Embedded & Firmware Engineering",
-        "children": [
-          {
-            "name": "Embedded Linux Engineer"
-          },
-          {
-            "name": "Autopilot / Flight Stack Engineer"
-          },
-          {
-            "name": "Motor Control Engineer (FOC / ESC)"
-          },
-          {
-            "name": "Embedded Core Engineer (MCU / Firmware)"
-          },
-          {
-            "name": "Embedded Video Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Hardware Engineering & Electronics",
-        "children": [
-          {
-            "name": "Hardware Engineer"
-          },
-          {
-            "name": "Hardware Engineer (R&D / UAV / Integration)"
-          },
-          {
-            "name": "PCB Design Engineer"
-          },
-          {
-            "name": "ECAD Engineer"
-          },
-          {
-            "name": "FPGA Engineer"
-          },
-          {
-            "name": "RF Engineer"
-          },
-          {
-            "name": "Power Electronics Engineer"
-          },
-          {
-            "name": "Antenna Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Mechanical / CAD / Industrial / Aviation Design",
-        "children": [
-          {
-            "name": "CAD Engineer"
-          },
-          {
-            "name": "Industrial / Product Designer (R&D)"
-          },
-          {
-            "name": "Aviation / UAV Design Engineer"
-          },
-          {
-            "name": "Prototyping / Process Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Robotics / UAV / UGV / Platform Engineering",
-        "children": [
-          {
-            "name": "Robotics Engineer"
-          },
-          {
-            "name": "Robotics Engineer (Autonomous UAV)"
-          },
-          {
-            "name": "UAV Engineer (UAV Systems)"
-          },
-          {
-            "name": "UAV R&D Engineer"
-          },
-          {
-            "name": "Field Engineer (Robotic Systems Integration & Testing)"
-          }
-        ]
-      },
-
-      {
         "name": "Algorithms / Autonomy / CV / ML",
         "children": [
-          {
-            "name": "GNC / Control Engineer"
-          },
-          {
-            "name": "Computer Vision Engineer"
-          },
-          {
-            "name": "ML / Deep Learning Engineer"
-          },
-          {
-            "name": "Embedded ML / Edge AI Engineer"
-          }
+          { "name": "Computer Vision Engineer" },
+          { "name": "Embedded ML / Edge AI Engineer" },
+          { "name": "GNC / Control Engineer" },
+          { "name": "ML / Deep Learning Engineer" }
         ]
       },
-
-      {
-        "name": "Simulation / Modeling / Visualization (R&D)",
-        "children": [
-          {
-            "name": "Simulation Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "Systems Integration / Field Test / Validation",
-        "children": [
-          {
-            "name": "Integration Engineer"
-          },
-          {
-            "name": "Field Test / Validation Engineer"
-          },
-          {
-            "name": "Flight Data Analyst / Flight Data Reporting Engineer"
-          }
-        ]
-      },
-
-      {
-        "name": "QA / Test Engineering",
-        "children": [
-          {
-            "name": "QA Engineer"
-          },
-          {
-            "name": "Manual QA Engineer"
-          },
-          {
-            "name": "QA Engineer (Embedded / UAV)"
-          },
-          {
-            "name": "Embedded Systems (Hardware) QA / Embedded QA Lead"
-          }
-        ]
-      },
-
-      {
-        "name": "Data / Analytics / Telemetry (R&D)",
-        "children": [
-          {
-            "name": "Data Engineer"
-          },
-          {
-            "name": "Data Analyst"
-          },
-          {
-            "name": "BI Engineer"
-          },
-          {
-            "name": "Data Verification Specialist"
-          }
-        ]
-      },
-
       {
         "name": "DevOps / Infrastructure / Security (R&D)",
         "children": [
-          {
-            "name": "DevOps Engineer"
-          },
-          {
-            "name": "DevSecOps Engineer"
-          },
-          {
-            "name": "Infrastructure / Systems Engineer (R&D)"
-          },
-          {
-            "name": "Cloud & Security Engineer"
-          },
-          {
-            "name": "Cybersecurity Engineer (Embedded / Connected Systems)"
-          }
+          { "name": "Cloud & Security Engineer" },
+          { "name": "Cybersecurity Engineer (Embedded / Connected Systems)" },
+          { "name": "DevOps Engineer" },
+          { "name": "DevSecOps Engineer" },
+          { "name": "Infrastructure / Systems Engineer (R&D)" }
         ]
       },
-
+      {
+        "name": "Embedded & Firmware Engineering",
+        "children": [
+          { "name": "Autopilot / Flight Stack Engineer" },
+          { "name": "Embedded Core Engineer (MCU / Firmware)" },
+          { "name": "Embedded Linux Engineer" },
+          { "name": "Embedded Video Engineer" },
+          { "name": "Motor Control Engineer (FOC / ESC)" }
+        ]
+      },
+      {
+        "name": "Engineering Management / R&D Leadership",
+        "children": [
+          { "name": "Chief Architect / System Architect" },
+          { "name": "Engineering Lead / Tech Lead (MilTech)" },
+          { "name": "Engineering Manager" },
+          { "name": "Head of Engineering" },
+          { "name": "Lead Backend Developer (Rust)" },
+          { "name": "Lead C++ / Computer Vision Engineer" },
+          { "name": "Lead C++ Engineer (Hardware and Software)" }
+        ]
+      },
+      {
+        "name": "Hardware Engineering & Electronics",
+        "children": [
+          { "name": "ECAD Engineer (Altium)" },
+          { "name": "Electronics Design Engineer" },
+          { "name": "FPGA Developer" },
+          { "name": "FPGA Engineer" },
+          { "name": "Hardware / PCB Engineer" },
+          { "name": "Hardware and Electronics Engineer" },
+          { "name": "Hardware Engineer" },
+          { "name": "Hardware Engineer (R&D)" },
+          { "name": "Hardware Engineer (R&D / UAV / Integration)" },
+          { "name": "Hardware Engineer (UAV / PCB)" },
+          { "name": "Prototype Electronics Engineer" },
+          { "name": "Radio Frequency Engineer" },
+          { "name": "RF Engineer" },
+          { "name": "Senior FPGA Engineer" },
+          { "name": "PCB Design Engineer" },
+          { "name": "PCB Layout Engineer" },
+          { "name": "PCB Schematic Engineer" },
+          { "name": "Power Electronics Engineer" },
+          { "name": "Antenna Engineer" }
+        ]
+      },
+      {
+        "name": "Mechanical / CAD / Industrial / Aviation Design",
+        "children": [
+          { "name": "CAD Engineer" },
+          { "name": "CAD Engineer 3D" },
+          { "name": "Design Engineer" },
+          { "name": "Industrial / Product Designer (R&D)" },
+          { "name": "Mechanical Design Engineer" },
+          { "name": "Mechanical Engineer" },
+          { "name": "Process Engineer" },
+          { "name": "Process / Manufacturing Technologist" },
+          { "name": "Prototyping Engineer" },
+          { "name": "Aviation / UAV Design Engineer" },
+          { "name": "Prototyping / Process Engineer" }
+        ]
+      },
+      {
+        "name": "QA / Test Engineering",
+        "children": [
+          { "name": "Embedded Systems (Hardware) QA / Embedded QA Lead" },
+          { "name": "Manual QA Engineer" },
+          { "name": "QA Engineer" },
+          { "name": "QA Engineer (Embedded / UAV)" }
+        ]
+      },
+      {
+        "name": "Simulation / Modeling / Visualization (R&D)",
+        "children": [
+          { "name": "Simulation Engineer" }
+        ]
+      },
+      {
+        "name": "Software Engineering (R&D)",
+        "children": [
+          { "name": "Backend / Application Engineer" },
+          { "name": "Frontend / Full Stack Engineer (Internal Software)" },
+          { "name": "Systems / Linux Software Engineer" }
+        ]
+      },
+      {
+        "name": "Systems Integration / Field Test / Validation",
+        "children": [
+          { "name": "Field Test / Validation Engineer" },
+          { "name": "Flight Data Analyst / Flight Data Reporting Engineer" },
+          { "name": "Integration Engineer" }
+        ]
+      },
+      {
+        "name": "Data / Analytics / Telemetry (R&D)",
+        "children": [
+          { "name": "BI Engineer" },
+          { "name": "Data Analyst" },
+          { "name": "Data Engineer" },
+          { "name": "Data Verification Specialist" }
+        ]
+      },
       {
         "name": "Technical Writing / Documentation / Engineering Ops",
         "children": [
-          {
-            "name": "Technical Writer"
-          },
-          {
-            "name": "Technical Writer (R&D / Military Tech)"
-          },
-          {
-            "name": "Technical Documentation Engineer"
-          }
+          { "name": "Technical Documentation Engineer" },
+          { "name": "Technical Writer" },
+          { "name": "Technical Writer (R&D / Military Tech)" }
+        ]
+      },
+      {
+        "name": "Robotics / UAV / UGV / Platform Engineering",
+        "children": [
+          { "name": "Field Engineer (Robotic Systems Integration & Testing)" },
+          { "name": "Robotics Engineer" },
+          { "name": "Robotics Engineer (Autonomous UAV)" },
+          { "name": "UAV Engineer (UAV Systems)" },
+          { "name": "UAV R&D Engineer" }
         ]
       }
     ]
   },
-
   "non_engineering": {
     "name": "NON-ENGINEERING (MilTech / Defense)",
     "children": [
       {
-        "name": "Product & Delivery",
-        "children": [
-          {
-            "name": "Product Manager (Defense / MilTech)"
-          },
-          {
-            "name": "Technical / Hardware Product Manager"
-          },
-          {
-            "name": "Product Owner (Delivery-focused)"
-          },
-          {
-            "name": "Project Manager"
-          },
-          {
-            "name": "Program Manager"
-          },
-          {
-            "name": "Delivery Manager"
-          },
-          {
-            "name": "Business Analyst"
-          },
-          {
-            "name": "System Analyst"
-          },
-          {
-            "name": "Product Analyst"
-          }
-        ]
-      },
-
-      {
-        "name": "Production / Operations",
-        "children": [
-          {
-            "name": "Manufacturing / Production Engineer"
-          },
-          {
-            "name": "Production Manager / Head of Production"
-          },
-          {
-            "name": "Additive Manufacturing Engineer / 3D Printing Engineer"
-          },
-          {
-            "name": "Assembly Technician / Production Operator"
-          },
-          {
-            "name": "Warehouse / Inventory Specialist"
-          },
-          {
-            "name": "Operations Manager (Production)"
-          }
-        ]
-      },
-
-      {
-        "name": "QA / VTK / Quality Control",
-        "children": [
-          {
-            "name": "Quality Control Inspector (VTK)"
-          },
-          {
-            "name": "QA Lead / Quality Assurance Lead"
-          },
-          {
-            "name": "Test Technician / Test Operator"
-          }
-        ]
-      },
-
-      {
         "name": "Go-to-Market & Corporate",
         "children": [
           {
-            "name": "Procurement / Supply Chain Specialist"
+            "name": "Corporate Operations",
+            "children": [
+              { "name": "Corporate Operations / Administrative Manager" }
+            ]
           },
           {
-            "name": "Sales Manager / Business Development Manager (Defense)"
+            "name": "Grants / Fundraising / Tenders",
+            "children": [
+              { "name": "Grant / Tender Manager" }
+            ]
           },
           {
-            "name": "Marketing / Communications Manager"
+            "name": "Marketing / Communications",
+            "children": [
+              { "name": "Marketing / Communications Manager (Defense)" }
+            ]
           },
           {
-            "name": "Grant / Tender Manager"
+            "name": "Procurement & Supply Chain",
+            "children": [
+              { "name": "Procurement / Supply Chain Specialist" }
+            ]
           },
           {
-            "name": "Corporate Operations / Administrative Manager"
+            "name": "Sales & Business Development",
+            "children": [
+              { "name": "Sales / Business Development Manager (Defense)" }
+            ]
           }
         ]
       },
-
       {
         "name": "People & Operations",
         "children": [
           {
-            "name": "Recruiter / Talent Acquisition Specialist"
+            "name": "Finance & Accounting",
+            "children": [
+              { "name": "Finance / Accounting Specialist" }
+            ]
           },
           {
-            "name": "HR Manager / People Partner"
+            "name": "Legal & Compliance",
+            "children": [
+              { "name": "Legal Counsel / Compliance Specialist" }
+            ]
           },
           {
-            "name": "Finance / Accounting Specialist"
+            "name": "People & Talent",
+            "children": [
+              { "name": "HR Manager / People Partner" },
+              { "name": "Recruiter / Talent Acquisition Specialist" }
+            ]
           },
           {
-            "name": "Legal Counsel / Compliance Specialist"
+            "name": "Training / Instructors",
+            "children": [
+              { "name": "Training Instructor / Technical Trainer" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Product & Delivery",
+        "children": [
+          {
+            "name": "Business / System Analysis",
+            "children": [
+              { "name": "Business Analyst" },
+              { "name": "Product Analyst" },
+              { "name": "System Analyst" }
+            ]
           },
           {
-            "name": "Operations / Administrative Manager"
+            "name": "Product Management",
+            "children": [
+              { "name": "Product Manager (Defense / MilTech)" },
+              { "name": "Product Owner (Delivery-focused)" },
+              { "name": "Technical / Hardware Product Manager" }
+            ]
           },
           {
-            "name": "Training Instructor / Technical Trainer"
+            "name": "Project / Program Management",
+            "children": [
+              { "name": "Delivery Manager" },
+              { "name": "Program Manager" },
+              { "name": "Project Manager" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Production / Operations",
+        "children": [
+          {
+            "name": "Additive Manufacturing / 3D Printing",
+            "children": [
+              { "name": "Additive Manufacturing Engineer / 3D Printing Engineer" }
+            ]
+          },
+          {
+            "name": "Assembly / Technicians / Operators",
+            "children": [
+              { "name": "Assembly Technician / Production Operator" }
+            ]
+          },
+          {
+            "name": "Manufacturing / Production Engineering",
+            "children": [
+              { "name": "Manufacturing / Production Engineer" },
+              { "name": "Production Manager / Head of Production" }
+            ]
+          },
+          {
+            "name": "Operations Management (Production Context)",
+            "children": [
+              { "name": "Operations Manager (Production)" }
+            ]
+          },
+          {
+            "name": "Warehouse / Inventory / Logistics",
+            "children": [
+              { "name": "Warehouse / Inventory Specialist" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "QA / VTK / Quality Control",
+        "children": [
+          {
+            "name": "Production Quality Control",
+            "children": [
+              { "name": "Quality Control Inspector (VTK)" }
+            ]
+          },
+          {
+            "name": "R&D / Product QA",
+            "children": [
+              { "name": "QA Engineer" },
+              { "name": "Quality Assurance Lead (Defense / MilTech)" }
+            ]
+          },
+          {
+            "name": "Testing & Validation Operations",
+            "children": [
+              { "name": "Test Technician / Test Operator" }
+            ]
           }
         ]
       }
