@@ -1,9 +1,16 @@
+/* =========================
+   GLOBAL STATE
+========================= */
+
 let ROLES = [];
 let ROLE_BY_ID = new Map();
-let ROLE_BY_CANON = new Map(); // key: canonical_name lowercase
 let STRUCTURE = null;
 
-const MIN_DEPTH_FOR_RESULTS = 2; // показуємо результати з рівня "домен -> піддомен"
+const MIN_DEPTH_FOR_RESULTS = 2; // домен → піддомен
+
+/* =========================
+   UTILS
+========================= */
 
 function slug(s) {
   return String(s || "")
@@ -13,6 +20,14 @@ function slug(s) {
     .replace(/^-+|-+$/g, "");
 }
 
+function normalize(s) {
+  return String(s || "").trim().toLowerCase();
+}
+
+/* =========================
+   UI HELPERS
+========================= */
+
 function setResetVisible(visible) {
   const btn = document.getElementById("reset");
   if (!btn) return;
@@ -20,116 +35,75 @@ function setResetVisible(visible) {
 }
 
 function renderResultsEmpty(text = "Оберіть гілку дерева") {
-  const el = document.getElementById("results");
-  el.innerHTML = `<div class="empty">${text}</div>`;
+  document.getElementById("results").innerHTML =
+    `<div class="empty">${text}</div>`;
 }
 
-function renderRoleEmpty(text = 'Оберіть роль у “Результатах”, щоб побачити картку.') {
-  const el = document.getElementById("role");
-  el.innerHTML = `<div class="empty">${text}</div>`;
+function renderRoleEmpty(
+  text = 'Оберіть роль у “Результатах”, щоб побачити картку.'
+) {
+  document.getElementById("role").innerHTML =
+    `<div class="empty">${text}</div>`;
 }
 
 function clearActive() {
-  document.querySelectorAll("#tree .node").forEach(n => n.classList.remove("active"));
+  document
+    .querySelectorAll("#tree .node")
+    .forEach(n => n.classList.remove("active"));
 }
 
 function setAllTreeNodes(open) {
   document.querySelectorAll("#tree .node").forEach(node => {
     const row = node.querySelector(":scope > .row");
-    const badge = row?.querySelector(".toggle");
+    const toggle = row?.querySelector(".toggle");
     const children = node.querySelector(":scope > .children");
-    if (!children || !badge) return;
+    if (!children || !toggle) return;
 
     children.style.display = open ? "block" : "none";
-    badge.textContent = open ? "–" : "+";
+    toggle.textContent = open ? "–" : "+";
   });
 }
 
-function highlightTreePath(path) {
-  clearActive();
-
-  let container = document.getElementById("tree");
-  for (const part of path) {
-    const nodes = Array.from(container.children);
-    const node = nodes.find(n => n.querySelector(":scope > .row .label")?.textContent === part);
-    if (!node) return;
-
-    node.classList.add("active");
-
-    const children = node.querySelector(":scope > .children");
-    const toggle = node.querySelector(":scope > .row .toggle");
-    if (children && toggle) {
-      children.style.display = "block";
-      toggle.textContent = "–";
-      container = children;
-    }
-  }
-}
-
-function openTreePath(path) {
-  let container = document.getElementById("tree");
-  for (const part of path) {
-    const nodes = Array.from(container.children);
-    const node = nodes.find(n => n.querySelector(":scope > .row .label")?.textContent === part);
-    if (!node) return;
-
-    const children = node.querySelector(":scope > .children");
-    const toggle = node.querySelector(":scope > .row .toggle");
-
-    if (children && toggle && children.style.display === "none") {
-      children.style.display = "block";
-      toggle.textContent = "–";
-    }
-    if (children) container = children;
-  }
-}
-
-/**
- * ===== structure helpers =====
- * Ми рендеримо дерево НЕ з roles.primary_path, а з structure.json.
- * Паралельно будуємо для кожного вузла список ролей у його піддереві:
- * nodeMeta.roles = Role[]
- */
-function normalizeCanon(s) {
-  return String(s || "").trim().toLowerCase();
-}
+/* =========================
+   ROLE INDEX
+========================= */
 
 function indexRoles(roles) {
   ROLE_BY_ID = new Map();
-  ROLE_BY_CANON = new Map();
-
-  for (const r of roles) {
-    if (r?.id) ROLE_BY_ID.set(r.id, r);
-    if (r?.canonical_name) ROLE_BY_CANON.set(normalizeCanon(r.canonical_name), r);
-  }
+  roles.forEach(r => {
+    if (r.id) ROLE_BY_ID.set(r.id, r);
+  });
 }
 
-// структура у файлі: { engineering: {name, children: [...]}, non_engineering: {name, children:[...]} }
+/* =========================
+   STRUCTURE HELPERS
+========================= */
+
+// structure.json: { engineering:{name,children}, non_engineering:{name,children} }
 function flattenStructureRoots(structure) {
   const roots = [];
-  if (structure?.engineering?.name) roots.push(structure.engineering);
-  if (structure?.non_engineering?.name) roots.push(structure.non_engineering);
+  if (structure?.engineering) roots.push(structure.engineering);
+  if (structure?.non_engineering) roots.push(structure.non_engineering);
   return roots;
 }
 
 function attachRolesToStructure(node, path = []) {
-  // повертає масив ролей у піддереві цього вузла
   const currentPath = [...path, node.name];
   const children = Array.isArray(node.children) ? node.children : [];
 
-  // leaf
   if (!children.length) {
-    // пробуємо знайти роль по canonical_name (назва leaf == canonical_name)
-    const role = ROLE_BY_CANON.get(normalizeCanon(node.name));
+    const roles = ROLES.filter(r =>
+      normalize(r.title) === normalize(node.name)
+    );
+
     node.__meta = {
       path: currentPath,
-      roles: role ? [role] : [],
+      roles,
       isLeaf: true
     };
-    return node.__meta.roles;
+    return roles;
   }
 
-  // non-leaf
   let roles = [];
   for (const ch of children) {
     roles = roles.concat(attachRolesToStructure(ch, currentPath));
@@ -143,142 +117,121 @@ function attachRolesToStructure(node, path = []) {
   return roles;
 }
 
-function findStructurePathByRole(role) {
-  if (!STRUCTURE) return null;
+/* =========================
+   RESULTS RENDER
+========================= */
 
-  const targetCanon = normalizeCanon(role?.canonical_name);
-  if (!targetCanon) return null;
-
-  const roots = flattenStructureRoots(STRUCTURE);
-
-  function dfs(n) {
-    if (!n) return null;
-
-    if (!n.children || !n.children.length) {
-      if (normalizeCanon(n.name) === targetCanon) return n.__meta?.path || null;
-      return null;
-    }
-
-    for (const ch of n.children) {
-      const res = dfs(ch);
-      if (res) return res;
-    }
-    return null;
-  }
-
-  for (const r of roots) {
-    const res = dfs(r);
-    if (res) return res;
-  }
-  return null;
-}
-
-function showResultsForNodePath(path, roles, domainName) {
-  // фільтр: щоб на рівні домену не показувати "месиво"
-  if ((path || []).length < MIN_DEPTH_FOR_RESULTS) {
+function showResultsForNodePath(path, roles) {
+  if (path.length < MIN_DEPTH_FOR_RESULTS) {
     renderResultsEmpty("Розгорніть піддомен, щоб побачити ролі");
     renderRoleEmpty();
     return;
   }
 
-  // якщо ролей реально немає в цій гілці
-  if (!roles || !roles.length) {
+  if (!roles.length) {
     renderResultsEmpty("Немає ролей у цій гілці");
     renderRoleEmpty();
     return;
   }
 
-  renderResults(roles, domainName);
+  renderResults(roles);
   renderRoleEmpty();
 }
 
-function renderResults(list, domainNameOverride = null) {
+function renderResults(list) {
   const el = document.getElementById("results");
   el.innerHTML = "";
 
-  if (!list.length) {
-    el.innerHTML = `<div class="empty">Немає ролей у цій гілці.</div>`;
-    return;
-  }
-
-  for (const role of list) {
+  list.forEach(role => {
     const card = document.createElement("div");
     card.className = "result-card";
 
-    // домен беремо з role.domain, але якщо в structure домен інший/правильний — можна форснути
-    const domain = domainNameOverride || role.domain || "—";
-
-    // секція — 2-й елемент primary_path (якщо є), але у нас master-структура вказує інакше.
-    // Тому: показуємо перший “піддомен” з primary_path або з role.primary_path[1], якщо є.
-    const section =
-      (role.primary_path && role.primary_path[1]) ? role.primary_path[1] : "—";
-
-    const pathText = (role.primary_path || []).join(" → ");
-    const titles = (role.market_titles || []).slice(0, 8).join(" • ");
+    const pathText = (role.category_path || []).join(" → ");
+    const synonyms =
+      role.content?.job_title_synonyms?.slice(0, 6).join(" • ") || "";
 
     card.innerHTML = `
-      <h3>${role.canonical_name || "—"}</h3>
+      <h3>${role.title}</h3>
       <div class="badges">
-        <span class="badge domain domain-${slug(domain)}">${domain}</span>
-        <span class="badge section">${section}</span>
+        <span class="badge domain domain-${slug(role.domain)}">
+          ${role.domain || "—"}
+        </span>
       </div>
-      <div class="path">${pathText || "—"}</div>
-      <div class="muted">${titles || ""}</div>
+      <div class="path">${pathText}</div>
+      <div class="muted">${synonyms}</div>
     `;
 
-    card.addEventListener("click", () => {
+    card.onclick = () => {
       renderRole(role);
-      history.replaceState({}, "", `#role=${encodeURIComponent(role.id)}`);
+      history.replaceState({}, "", `#role=${role.id}`);
       setResetVisible(true);
-    });
+    };
 
     el.appendChild(card);
-  }
+  });
 }
 
 function renderRole(role) {
   const el = document.getElementById("role");
 
-  const domain = role.domain || "—";
-  const pathText = (role.primary_path || []).join(" → ");
-  const titles = (role.market_titles || []).join(", ");
-  const tags = (role.tags || []).map(t => `<span class="tag">${t}</span>`).join("");
+  const tags = (role.tags || [])
+    .map(t => `<span class="tag">${t}</span>`)
+    .join("");
 
   el.innerHTML = `
     <div class="role-card">
-      <h2>${role.canonical_name || "—"}</h2>
-      <div class="kv"><strong>Домен:</strong> <span class="badge domain domain-${slug(domain)}">${domain}</span></div>
-      <div class="kv"><strong>Шлях:</strong> ${pathText || "—"}</div>
-      <div class="kv"><strong>Опис:</strong> ${role.description || "—"}</div>
-      <div class="kv"><strong>Синоніми:</strong> ${titles || "—"}</div>
-      <div class="kv"><strong>Теги:</strong> <span class="tags">${tags || "—"}</span></div>
+      <h2>${role.title}</h2>
+
+      <div class="kv">
+        <strong>Домен:</strong>
+        <span class="badge domain domain-${slug(role.domain)}">
+          ${role.domain || "—"}
+        </span>
+      </div>
+
+      <div class="kv">
+        <strong>Шлях:</strong>
+        ${(role.category_path || []).join(" → ")}
+      </div>
+
+      <div class="kv">
+        <strong>Опис:</strong>
+        ${role.summary?.role_snapshot || "—"}
+      </div>
+
+      <div class="kv">
+        <strong>Синоніми:</strong>
+        ${(role.content?.job_title_synonyms || []).join(", ") || "—"}
+      </div>
+
+      <div class="kv">
+        <strong>Теги:</strong>
+        <span class="tags">${tags || "—"}</span>
+      </div>
     </div>
   `;
 }
 
-function getTopDomainFromPath(path) {
-  return (path && path.length) ? path[0] : null;
-}
+/* =========================
+   TREE RENDER
+========================= */
 
-/**
- * ===== render tree from structure.json =====
- */
 function renderStructureTree(container, nodes, prefix = []) {
   container.innerHTML = "";
 
-  for (const nodeObj of nodes) {
-    const key = nodeObj.name;
+  nodes.forEach(nodeObj => {
     const node = document.createElement("div");
     node.className = "node";
 
     const row = document.createElement("div");
     row.className = "row";
 
-    const hasChildren = Array.isArray(nodeObj.children) && nodeObj.children.length > 0;
+    const hasChildren = nodeObj.children?.length;
     row.innerHTML = `
       <span class="toggle">${hasChildren ? "+" : "•"}</span>
-      <span class="label">${key}</span>
+      <span class="label">${nodeObj.name}</span>
     `;
+
     node.appendChild(row);
 
     const childrenWrap = document.createElement("div");
@@ -287,76 +240,70 @@ function renderStructureTree(container, nodes, prefix = []) {
     node.appendChild(childrenWrap);
 
     if (hasChildren) {
-      renderStructureTree(childrenWrap, nodeObj.children, [...prefix, key]);
+      renderStructureTree(childrenWrap, nodeObj.children, [...prefix, nodeObj.name]);
     }
 
-    row.addEventListener("click", () => {
+    row.onclick = () => {
       const isOpen = childrenWrap.style.display !== "none";
 
-      // toggle
       if (hasChildren) {
         childrenWrap.style.display = isOpen ? "none" : "block";
         row.querySelector(".toggle").textContent = isOpen ? "+" : "–";
       }
 
-      const path = [...prefix, key];
+      const path = [...prefix, nodeObj.name];
+      const roles = nodeObj.__meta?.roles || [];
 
-      // Якщо вузол закрили — очищаємо результати/роль
       if (hasChildren && isOpen) {
-        renderResultsEmpty("Оберіть гілку дерева");
+        renderResultsEmpty();
         renderRoleEmpty();
-        history.replaceState({}, "", "#");
-
-        const search = document.getElementById("search");
-        setResetVisible(!!(search && search.value.trim()));
         return;
       }
 
-      // Якщо відкрили (або leaf) — показуємо ролі для цього вузла (по structure meta)
-      const roles = nodeObj.__meta?.roles || [];
-      const topDomain = getTopDomainFromPath(path);
-
-      // Показувати результати лише починаючи з піддомену
-      showResultsForNodePath(path, roles, topDomain);
-
-      // hash path (для дебагу/шару)
-      history.replaceState({}, "", `#path=${encodeURIComponent(path.join(" > "))}`);
+      showResultsForNodePath(path, roles);
       setResetVisible(true);
-    });
+    };
 
     container.appendChild(node);
-  }
+  });
 }
+
+/* =========================
+   SEARCH
+========================= */
 
 function setupSearch() {
   const input = document.getElementById("search");
-  const resetBtn = document.getElementById("reset");
+  const reset = document.getElementById("reset");
 
-  input.addEventListener("input", () => {
-    const q = input.value.trim().toLowerCase();
-
+  input.oninput = () => {
+    const q = normalize(input.value);
     if (!q) {
       renderResultsEmpty();
       renderRoleEmpty();
-      setResetVisible(location.hash.startsWith("#role="));
       return;
     }
 
     const list = ROLES.filter(r => {
-      const name = (r.canonical_name || "").toLowerCase();
-      const domain = (r.domain || "").toLowerCase();
-      const titles = (r.market_titles || []).join(" ").toLowerCase();
-      const tags = (r.tags || []).join(" ").toLowerCase();
-      const path = (r.primary_path || []).join(" ").toLowerCase();
-      return (name + " " + domain + " " + titles + " " + tags + " " + path).includes(q);
+      const text = [
+        r.title,
+        r.domain,
+        ...(r.tags || []),
+        ...(r.content?.job_title_synonyms || []),
+        ...(r.category_path || [])
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return text.includes(q);
     });
 
-    renderResults(list, null);
+    renderResults(list);
     renderRoleEmpty();
     setResetVisible(true);
-  });
+  };
 
-  resetBtn?.addEventListener("click", () => {
+  reset.onclick = () => {
     input.value = "";
     renderResultsEmpty();
     renderRoleEmpty();
@@ -364,80 +311,32 @@ function setupSearch() {
     clearActive();
     history.replaceState({}, "", "#");
     setResetVisible(false);
-  });
+  };
 }
 
+/* =========================
+   INIT
+========================= */
+
 async function init() {
-  // 1) load roles
-  const rolesRes = await fetch("./roles.json");
-  const rolesData = await rolesRes.json();
-  ROLES = rolesData.roles || [];
-  if (!ROLES.length) {
-    document.getElementById("tree").innerHTML = `<div class="empty">roles.json завантажився, але ролей немає.</div>`;
-    renderResultsEmpty("Немає ролей");
-    renderRoleEmpty();
-    return;
-  }
+  // roles
+  ROLES = await fetch("./roles.json").then(r => r.json());
   indexRoles(ROLES);
 
-  // 2) load structure
-  const structureRes = await fetch("./structure.json");
-  STRUCTURE = await structureRes.json();
-
-  // 3) attach role lists to structure nodes
+  // structure
+  STRUCTURE = await fetch("./structure.json").then(r => r.json());
   const roots = flattenStructureRoots(STRUCTURE);
-  for (const r of roots) attachRolesToStructure(r, []);
+  roots.forEach(r => attachRolesToStructure(r));
 
-  // 4) render tree
+  // render
   renderStructureTree(document.getElementById("tree"), roots);
-
-  document.getElementById("expandAll")?.addEventListener("click", () => {
-    setAllTreeNodes(true);
-    setResetVisible(true);
-  });
-
-  document.getElementById("collapseAll")?.addEventListener("click", () => {
-    setAllTreeNodes(false);
-    setResetVisible(true);
-  });
-
   renderResultsEmpty();
   renderRoleEmpty();
   setupSearch();
   setResetVisible(false);
-
-  // Deep link #role=
-  const hash = decodeURIComponent(location.hash || "");
-  if (hash.startsWith("#role=")) {
-    const id = hash.replace("#role=", "");
-    const role = ROLE_BY_ID.get(id);
-    if (role) {
-      // знайти шлях у structure
-      const structPath = findStructurePathByRole(role);
-
-      if (structPath && structPath.length) {
-        openTreePath(structPath);
-        highlightTreePath(structPath);
-
-        // показати контекст — результати на рівні піддомену (domain + section)
-        const prefix = structPath.slice(0, Math.max(MIN_DEPTH_FOR_RESULTS, 2));
-        // знайдемо вузол prefix у структурі, щоб взяти його roles
-        // (просто відкриємо повний шлях і покажемо ролі з вузла structPath[MIN_DEPTH-1] якщо можливо)
-        renderResults(ROLES.filter(r => normalizeCanon(r.canonical_name) === normalizeCanon(role.canonical_name)), structPath[0]);
-      } else {
-        // fallback: просто роль
-        renderResults([role], role.domain || null);
-      }
-
-      renderRole(role);
-      setResetVisible(true);
-    }
-  }
 }
 
 init().catch(err => {
-  const msg = "Помилка завантаження JSON: " + err;
+  const msg = "Помилка завантаження: " + err;
   document.getElementById("tree").innerHTML = `<div class="empty">${msg}</div>`;
-  document.getElementById("results").innerHTML = `<div class="empty">${msg}</div>`;
-  document.getElementById("role").innerHTML = `<div class="empty">${msg}</div>`;
 });
