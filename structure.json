@@ -27,7 +27,11 @@
               "type": "group",
               "key": "technical_leadership_team_level",
               "children": [
-                { "title": "Engineering Lead / Tech Lead (MilTech)", "type": "role", "key": "engineering_lead_tech_lead_miltech" }
+                {
+                  "title": "Engineering Lead / Tech Lead (MilTech)",
+                  "type": "role",
+                  "key": "engineering_lead_tech_lead_miltech"
+                }
               ]
             },
             {
@@ -44,8 +48,16 @@
               "key": "lead_engineers_senior_ic",
               "children": [
                 { "title": "Lead Backend Developer", "type": "role", "key": "lead_backend_developer" },
-                { "title": "Lead C++ Engineer (Hardware & Software)", "type": "role", "key": "lead_cpp_engineer_hardware_software" },
-                { "title": "Lead C++ / Computer Vision Engineer", "type": "role", "key": "lead_cpp_computer_vision_engineer" }
+                {
+                  "title": "Lead C++ Engineer (Hardware & Software)",
+                  "type": "role",
+                  "key": "lead_cpp_engineer_hardware_software"
+                },
+                {
+                  "title": "Lead C++ / Computer Vision Engineer",
+                  "type": "role",
+                  "key": "lead_cpp_computer_vision_engineer"
+                }
               ]
             }
           ]
@@ -69,7 +81,11 @@
               "type": "group",
               "key": "frontend_fullstack_internal_software",
               "children": [
-                { "title": "Frontend / Full Stack Engineer (Internal Software)", "type": "role", "key": "frontend_fullstack_engineer_internal" }
+                {
+                  "title": "Frontend / Full Stack Engineer (Internal Software)",
+                  "type": "role",
+                  "key": "frontend_fullstack_engineer_internal_software"
+                }
               ]
             },
             {
@@ -77,7 +93,11 @@
               "type": "group",
               "key": "systems_linux_software",
               "children": [
-                { "title": "Systems / Linux Software Engineer", "type": "role", "key": "systems_linux_software_engineer" }
+                {
+                  "title": "Systems / Linux Software Engineer",
+                  "type": "role",
+                  "key": "systems_linux_software_engineer"
+                }
               ]
             }
           ]
@@ -89,10 +109,26 @@
           "key": "embedded_firmware_engineering",
           "children": [
             { "title": "Embedded Linux Engineer", "type": "role", "key": "embedded_linux_engineer" },
-            { "title": "Autopilot / Flight Stack Engineer", "type": "role", "key": "autopilot_flight_stack_engineer" },
-            { "title": "Motor Control Engineer (FOC / ESC)", "type": "role", "key": "motor_control_engineer_foc_esc" },
-            { "title": "Embedded Core Engineer (MCU / Firmware)", "type": "role", "key": "embedded_core_engineer_mcu_firmware" },
-            { "title": "Embedded Video", "type": "role", "key": "embedded_video" }
+            {
+              "title": "Embedded Core Engineer (MCU / Firmware)",
+              "type": "role",
+              "key": "embedded_core_engineer_mcu_firmware"
+            },
+            {
+              "title": "Autopilot / Flight Stack Engineer",
+              "type": "role",
+              "key": "autopilot_flight_stack_engineer"
+            },
+            {
+              "title": "Motor Control Engineer (FOC / ESC)",
+              "type": "role",
+              "key": "motor_control_engineer_foc_esc"
+            },
+            {
+              "title": "Embedded Video Engineer",
+              "type": "role",
+              "key": "embedded_video_engineer"
+            }
           ]
         },
 
@@ -107,7 +143,13 @@
               "key": "hardware_electronics",
               "children": [
                 { "title": "Hardware Engineer", "type": "role", "key": "hardware_engineer" },
-                { "title": "Hardware Engineer (R&D / UAV / Integration)", "type": "role", "key": "hardware_engineer_rd_uav_integration" }
+                { "title": "Hardware Engineer (R&D)", "type": "role", "key": "hardware_engineer_rd" },
+                { "title": "Hardware Engineer (UAV)", "type": "role", "key": "hardware_engineer_uav" },
+                {
+                  "title": "Hardware Engineer (Integration)",
+                  "type": "role",
+                  "key": "hardware_engineer_integration"
+                }
               ]
             },
             {
@@ -132,9 +174,21 @@
           "key": "mechanical_cad_industrial_aviation_design",
           "children": [
             { "title": "CAD Engineer", "type": "role", "key": "cad_engineer" },
-            { "title": "Industrial / Product Designer (R&D)", "type": "role", "key": "industrial_product_designer_rd" },
-            { "title": "Aviation / UAV Design Engineer", "type": "role", "key": "aviation_uav_design_engineer" },
-            { "title": "Prototyping / Process Engineer", "type": "role", "key": "prototyping_process_engineer" }
+            {
+              "title": "Industrial / Product Designer (R&D)",
+              "type": "role",
+              "key": "industrial_product_designer_rd"
+            },
+            {
+              "title": "Aviation / UAV Design Engineer",
+              "type": "role",
+              "key": "aviation_uav_design_engineer"
+            },
+            {
+              "title": "Prototyping / Process Engineer",
+              "type": "role",
+              "key": "prototyping_process_engineer"
+            }
           ]
         },
 
@@ -144,10 +198,18 @@
           "key": "robotics_uav_ugv_platform_engineering",
           "children": [
             { "title": "Robotics Engineer", "type": "role", "key": "robotics_engineer" },
-            { "title": "Robotics Engineer (Autonomous UAV)", "type": "role", "key": "robotics_engineer_autonomous_uav" },
+            {
+              "title": "Robotics Engineer (Autonomous UAV)",
+              "type": "role",
+              "key": "robotics_engineer_autonomous_uav"
+            },
             { "title": "UAV Engineer (UAV Systems)", "type": "role", "key": "uav_engineer_uav_systems" },
             { "title": "UAV R&D Engineer", "type": "role", "key": "uav_rd_engineer" },
-            { "title": "Field Engineer (Robotic Systems Integration & Testing)", "type": "role", "key": "field_engineer_robotic_integration_testing" }
+            {
+              "title": "Field Engineer (Robotic Systems Integration & Testing)",
+              "type": "role",
+              "key": "field_engineer_robotic_integration_testing"
+            }
           ]
         },
 
@@ -160,32 +222,30 @@
               "title": "7.1 Control & Navigation",
               "type": "group",
               "key": "control_navigation",
-              "children": [
-                { "title": "GNC / Control Engineer", "type": "role", "key": "gnc_control_engineer" }
-              ]
+              "children": [{ "title": "GNC / Control Engineer", "type": "role", "key": "gnc_control_engineer" }]
             },
             {
               "title": "7.2 Computer Vision",
               "type": "group",
               "key": "computer_vision",
-              "children": [
-                { "title": "Computer Vision Engineer", "type": "role", "key": "computer_vision_engineer" }
-              ]
+              "children": [{ "title": "Computer Vision Engineer", "type": "role", "key": "computer_vision_engineer" }]
             },
             {
               "title": "7.3 Machine Learning",
               "type": "group",
               "key": "machine_learning",
-              "children": [
-                { "title": "ML / Deep Learning Engineer", "type": "role", "key": "ml_deep_learning_engineer" }
-              ]
+              "children": [{ "title": "ML / Deep Learning Engineer", "type": "role", "key": "ml_deep_learning_engineer" }]
             },
             {
               "title": "7.4 Embedded AI",
               "type": "group",
               "key": "embedded_ai",
               "children": [
-                { "title": "Embedded ML / Edge AI Engineer", "type": "role", "key": "embedded_ml_edge_ai_engineer" }
+                {
+                  "title": "Embedded ML / Edge AI Engineer",
+                  "type": "role",
+                  "key": "embedded_ml_edge_ai_engineer"
+                }
               ]
             }
           ]
@@ -198,7 +258,11 @@
           "children": [
             { "title": "Integration Engineer", "type": "role", "key": "integration_engineer" },
             { "title": "Field Test / Validation Engineer", "type": "role", "key": "field_test_validation_engineer" },
-            { "title": "Flight Data Analyst / Flight Data Reporting Engineer", "type": "role", "key": "flight_data_analyst_reporting_engineer" }
+            {
+              "title": "Flight Data Analyst / Flight Data Reporting Engineer",
+              "type": "role",
+              "key": "flight_data_analyst_reporting_engineer"
+            }
           ]
         },
 
@@ -210,7 +274,11 @@
             { "title": "QA Engineer", "type": "role", "key": "qa_engineer" },
             { "title": "Manual QA Engineer", "type": "role", "key": "manual_qa_engineer" },
             { "title": "QA Engineer (Embedded / UAV)", "type": "role", "key": "qa_engineer_embedded_uav" },
-            { "title": "Embedded Systems (Hardware) QA / Embedded QA Lead", "type": "role", "key": "embedded_systems_hardware_qa_embedded_qa_lead" }
+            {
+              "title": "Embedded Systems (Hardware) QA / Embedded QA Lead",
+              "type": "role",
+              "key": "embedded_systems_hardware_qa_embedded_qa_lead"
+            }
           ]
         },
 
@@ -218,21 +286,27 @@
           "title": "10. Simulation / Modeling / Visualization (R&D)",
           "type": "group",
           "key": "simulation_modeling_visualization_rd",
-          "children": [
-            { "title": "Simulation Engineer", "type": "role", "key": "simulation_engineer" }
-          ]
+          "children": [{ "title": "Simulation Engineer", "type": "role", "key": "simulation_engineer" }]
         },
 
         {
           "title": "11. DevOps / Infrastructure / Security (R&D)",
           "type": "group",
-          "key": "devops_infra_security_rd",
+          "key": "devops_infrastructure_security_rd",
           "children": [
             { "title": "DevOps Engineer", "type": "role", "key": "devops_engineer" },
             { "title": "DevSecOps Engineer", "type": "role", "key": "devsecops_engineer" },
-            { "title": "Infrastructure / Systems Engineer (R&D)", "type": "role", "key": "infrastructure_systems_engineer_rd" },
+            {
+              "title": "Infrastructure / Systems Engineer (R&D)",
+              "type": "role",
+              "key": "infrastructure_systems_engineer_rd"
+            },
             { "title": "Cloud & Security Engineer", "type": "role", "key": "cloud_security_engineer" },
-            { "title": "Cybersecurity Engineer (Embedded / Connected Systems)", "type": "role", "key": "cybersecurity_engineer_embedded_connected" }
+            {
+              "title": "Cybersecurity Engineer (Embedded / Connected Systems)",
+              "type": "role",
+              "key": "cybersecurity_engineer_embedded_connected"
+            }
           ]
         },
 
@@ -242,8 +316,16 @@
           "key": "technical_writing_documentation_engineering_ops",
           "children": [
             { "title": "Technical Writer", "type": "role", "key": "technical_writer" },
-            { "title": "Technical Writer (R&D / Military Tech)", "type": "role", "key": "technical_writer_rd_military_tech" },
-            { "title": "Technical Documentation Engineer", "type": "role", "key": "technical_documentation_engineer" }
+            {
+              "title": "Technical Writer (R&D / Military Tech)",
+              "type": "role",
+              "key": "technical_writer_rd_military_tech"
+            },
+            {
+              "title": "Technical Documentation Engineer",
+              "type": "role",
+              "key": "technical_documentation_engineer"
+            }
           ]
         }
       ]
@@ -252,7 +334,7 @@
     {
       "title": "NON-ENGINEERING MASTER STRUCTURE",
       "type": "group",
-      "key": "non_engineering_master",
+      "key": "non_engineering_master_structure",
       "children": [
         {
           "title": "1. Product & Delivery",
@@ -264,9 +346,21 @@
               "type": "group",
               "key": "product_management",
               "children": [
-                { "title": "Product Manager (Defense / MilTech)", "type": "role", "key": "product_manager_defense_miltech" },
-                { "title": "Technical / Hardware Product Manager", "type": "role", "key": "technical_hardware_product_manager" },
-                { "title": "Product Owner (Delivery-focused)", "type": "role", "key": "product_owner_delivery_focused" }
+                {
+                  "title": "Product Manager (Defense / MilTech)",
+                  "type": "role",
+                  "key": "product_manager_defense_miltech"
+                },
+                {
+                  "title": "Technical / Hardware Product Manager",
+                  "type": "role",
+                  "key": "technical_hardware_product_manager"
+                },
+                {
+                  "title": "Product Owner (Delivery-focused)",
+                  "type": "role",
+                  "key": "product_owner_delivery_focused"
+                }
               ]
             },
             {
@@ -302,8 +396,16 @@
               "type": "group",
               "key": "manufacturing_production_engineering",
               "children": [
-                { "title": "Manufacturing / Production Engineer", "type": "role", "key": "manufacturing_production_engineer" },
-                { "title": "Production Manager / Head of Production", "type": "role", "key": "production_manager_head_of_production" }
+                {
+                  "title": "Manufacturing / Production Engineer",
+                  "type": "role",
+                  "key": "manufacturing_production_engineer"
+                },
+                {
+                  "title": "Production Manager / Head of Production",
+                  "type": "role",
+                  "key": "production_manager_head_of_production"
+                }
               ]
             },
             {
@@ -311,7 +413,11 @@
               "type": "group",
               "key": "additive_manufacturing_3d_printing",
               "children": [
-                { "title": "Additive Manufacturing Engineer / 3D Printing Engineer", "type": "role", "key": "additive_manufacturing_engineer_3d_printing_engineer" }
+                {
+                  "title": "Additive Manufacturing Engineer / 3D Printing Engineer",
+                  "type": "role",
+                  "key": "additive_manufacturing_engineer_3d_printing_engineer"
+                }
               ]
             },
             {
@@ -319,7 +425,11 @@
               "type": "group",
               "key": "assembly_technicians_operators",
               "children": [
-                { "title": "Assembly Technician / Production Operator", "type": "role", "key": "assembly_technician_production_operator" }
+                {
+                  "title": "Assembly Technician / Production Operator",
+                  "type": "role",
+                  "key": "assembly_technician_production_operator"
+                }
               ]
             },
             {
@@ -327,7 +437,11 @@
               "type": "group",
               "key": "warehouse_inventory_logistics",
               "children": [
-                { "title": "Warehouse / Inventory Specialist", "type": "role", "key": "warehouse_inventory_specialist" }
+                {
+                  "title": "Warehouse / Inventory Specialist",
+                  "type": "role",
+                  "key": "warehouse_inventory_specialist"
+                }
               ]
             },
             {
@@ -359,7 +473,7 @@
               "type": "group",
               "key": "rd_product_qa",
               "children": [
-                { "title": "QA Engineer", "type": "role", "key": "qa_engineer_non_eng" },
+                { "title": "QA Engineer", "type": "role", "key": "qa_engineer_rd_product_qa" },
                 { "title": "QA Lead / Quality Assurance Lead", "type": "role", "key": "qa_lead_quality_assurance_lead" }
               ]
             },
@@ -384,7 +498,11 @@
               "type": "group",
               "key": "procurement_supply_chain",
               "children": [
-                { "title": "Procurement / Supply Chain Specialist", "type": "role", "key": "procurement_supply_chain_specialist" }
+                {
+                  "title": "Procurement / Supply Chain Specialist",
+                  "type": "role",
+                  "key": "procurement_supply_chain_specialist"
+                }
               ]
             },
             {
@@ -392,7 +510,11 @@
               "type": "group",
               "key": "sales_business_development",
               "children": [
-                { "title": "Sales Manager / Business Development Manager (Defense)", "type": "role", "key": "sales_manager_bd_manager_defense" }
+                {
+                  "title": "Sales Manager / Business Development Manager (Defense)",
+                  "type": "role",
+                  "key": "sales_manager_business_development_manager_defense"
+                }
               ]
             },
             {
@@ -400,23 +522,29 @@
               "type": "group",
               "key": "marketing_communications",
               "children": [
-                { "title": "Marketing / Communications Manager", "type": "role", "key": "marketing_communications_manager" }
+                {
+                  "title": "Marketing / Communications Manager",
+                  "type": "role",
+                  "key": "marketing_communications_manager"
+                }
               ]
             },
             {
               "title": "4.4 Grants / Fundraising / Tenders",
               "type": "group",
               "key": "grants_fundraising_tenders",
-              "children": [
-                { "title": "Grant / Tender Manager", "type": "role", "key": "grant_tender_manager" }
-              ]
+              "children": [{ "title": "Grant / Tender Manager", "type": "role", "key": "grant_tender_manager" }]
             },
             {
               "title": "4.5 Corporate Operations",
               "type": "group",
               "key": "corporate_operations",
               "children": [
-                { "title": "Corporate Operations / Administrative Manager", "type": "role", "key": "corporate_operations_administrative_manager" }
+                {
+                  "title": "Corporate Operations / Administrative Manager",
+                  "type": "role",
+                  "key": "corporate_operations_administrative_manager"
+                }
               ]
             }
           ]
@@ -432,7 +560,11 @@
               "type": "group",
               "key": "people_talent",
               "children": [
-                { "title": "Recruiter / Talent Acquisition Specialist", "type": "role", "key": "recruiter_ta_specialist" },
+                {
+                  "title": "Recruiter / Talent Acquisition Specialist",
+                  "type": "role",
+                  "key": "recruiter_talent_acquisition_specialist"
+                },
                 { "title": "HR Manager / People Partner", "type": "role", "key": "hr_manager_people_partner" }
               ]
             },
@@ -449,7 +581,11 @@
               "type": "group",
               "key": "legal_compliance",
               "children": [
-                { "title": "Legal Counsel / Compliance Specialist", "type": "role", "key": "legal_counsel_compliance_specialist" }
+                {
+                  "title": "Legal Counsel / Compliance Specialist",
+                  "type": "role",
+                  "key": "legal_counsel_compliance_specialist"
+                }
               ]
             },
             {
@@ -457,7 +593,11 @@
               "type": "group",
               "key": "operations_administration",
               "children": [
-                { "title": "Operations / Administrative Manager", "type": "role", "key": "operations_administrative_manager" }
+                {
+                  "title": "Operations / Administrative Manager",
+                  "type": "role",
+                  "key": "operations_administrative_manager"
+                }
               ]
             },
             {
@@ -465,7 +605,11 @@
               "type": "group",
               "key": "training_instructors",
               "children": [
-                { "title": "Training Instructor / Technical Trainer", "type": "role", "key": "training_instructor_technical_trainer" }
+                {
+                  "title": "Training Instructor / Technical Trainer",
+                  "type": "role",
+                  "key": "training_instructor_technical_trainer"
+                }
               ]
             }
           ]
